@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import net.minecraftforge.event.EventBus;
 import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
@@ -41,7 +42,7 @@ public class MetallurgyCore
 
     public static boolean DEBUG = true;
 
-    Configuration config;
+    public static Configuration config;
 
     List<String> csvFiles;
     List<String> setsToRead;
@@ -103,6 +104,20 @@ public class MetallurgyCore
             config.save();
         }
     }
+    
+    public static Boolean getConfigSettingBoolean(String category, String name, Boolean defaultValue)
+    {
+    	config.load();
+    	
+    	Property property = config.get(category, name, defaultValue);
+    	
+    	if(config.hasChanged())
+    	{
+    		config.save();
+    	}
+    	
+    	return property.getBoolean(defaultValue);
+    }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
@@ -112,12 +127,6 @@ public class MetallurgyCore
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        final ModMetadata metadata = event.getModMetadata();
-
-        metadata.name = "Metallurgy 3 Core";
-        metadata.description = "Stuffs";
-        metadata.authorList = Arrays.asList(new String[]
-        { "Team Metallurgy" });
 
         log = event.getModLog();
 
