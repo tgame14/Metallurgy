@@ -9,8 +9,10 @@ import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.event.EventBus;
 import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
+import rebelkeithy.mods.metallurgy.core.plugins.PluginLoader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -32,6 +34,8 @@ public class MetallurgyCore
 
     @Instance(value = "Metallurgy3Core")
     public static MetallurgyCore instance;
+    
+    public static EventBus PLUGIN_BUS = new EventBus();
 
     public static boolean spawnInAir = false;
 
@@ -117,12 +121,6 @@ public class MetallurgyCore
 
         log = event.getModLog();
 
-//        for (final MetalSet set : getMetalSetList())
-//        {
-//            // set.initConfig();
-//            // set.init();
-//        }
-
         initConfig();
 
         for (final String filename : csvFiles)
@@ -142,5 +140,7 @@ public class MetallurgyCore
         }
 
         NetworkRegistry.instance().registerGuiHandler(this, GuiRegistry.instance());
+        
+        PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"));
     }
 }
