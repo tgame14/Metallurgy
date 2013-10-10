@@ -530,20 +530,9 @@ public class MetallurgyMetals
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Utility", "Metallurgy: Utility");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
 
-        String filepath = event.getMetallurgySourceFile().getAbsolutePath();
-
-        try
-        {
-            MetalInfoDatabase.readMetalDataFromJar("spreadsheet.csv", filepath);
-            MetalInfoDatabase.readItemDataFromJar(utilityConfig, "Items.csv", filepath, utilityTab);
-        } catch (final IOException ex)
-        {
-            //filepath += "/../resources";
-
-            MetalInfoDatabase.readMetalDataFromFile(filepath + "/spreadsheet.csv");
-            MetalInfoDatabase.readItemDataFromFile(utilityConfig, filepath + "/Items.csv", utilityTab);
-
-        }
+        String filepath = "assets/metallurgy/data";
+        MetalInfoDatabase.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
+        MetalInfoDatabase.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
 
         utilityConfig.save();
 

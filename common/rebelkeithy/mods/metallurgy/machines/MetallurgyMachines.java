@@ -457,7 +457,7 @@ public class MetallurgyMachines
         ConfigMachines.initConfig();
 
         initCrusher();
-        initFurnace();
+        initFurnace(); 
         initForge();
         initChests();
         initMint();
