@@ -241,7 +241,7 @@ public class MetallurgyMetals
         }
     }
 
-    public void createUtilityItems()
+    public void createUtilityItems(MetallurgyCore instance)
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.blazeRod), "I", "I", 'I', "ingotVulcanite"));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dustIron, 2), "dustShadow Iron", "dustIgnatius"));
@@ -252,7 +252,7 @@ public class MetallurgyMetals
         {
             largeTNT = new BlockLargeTNT(id).setUnlocalizedName("M3HETNT").setCreativeTab(utilityTab);
             GameRegistry.registerBlock(largeTNT, "M3HETNT");
-            EntityRegistry.registerModEntity(EntityLargeTNTPrimed.class, "LargeTNTEntity", 113, this, 64, 10, true);
+            EntityRegistry.registerModEntity(EntityLargeTNTPrimed.class, "LargeTNTEntity", 113, instance, 64, 10, true);
             LanguageRegistry.addName(largeTNT, "HE TNT");
             if (utilityConfig.get("Recipes", "Enable HE TNT", true).getBoolean(true))
             {
@@ -266,7 +266,7 @@ public class MetallurgyMetals
         {
             minersTNT = new BlockMinersTNT(id).setUnlocalizedName("M3LETNT").setCreativeTab(utilityTab);
             GameRegistry.registerBlock(minersTNT, "M3LETNT");
-            EntityRegistry.registerModEntity(EntityMinersTNTPrimed.class, "MinersTNTEntity", 113, this, 64, 10, true);
+            EntityRegistry.registerModEntity(EntityMinersTNTPrimed.class, "MinersTNTEntity", 113, instance, 64, 10, true);
             LanguageRegistry.addName(minersTNT, "LE TNT");
             if (utilityConfig.get("Recipes", "Enable LE TNT", true).getBoolean(true))
             {
@@ -562,7 +562,7 @@ public class MetallurgyMetals
         if (isSetEnabled("Utility"))
         {
             utilityConfig.load();
-            createUtilityItems();
+            createUtilityItems(event.getMetallurgyInstance());
             utilityConfig.save();
         }
     }

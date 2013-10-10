@@ -67,7 +67,7 @@ public class MetallurgyMachines
     @SidedProxy(clientSide = "rebelkeithy.mods.metallurgy.machines.ClientProxy", serverSide = "rebelkeithy.mods.metallurgy.machines.CommonProxy")
     public static CommonProxy proxy;
 
-    public MetallurgyCore instance;
+    public static MetallurgyCore instance;
 
     public static MetallurgyTabs machineTab;
 
