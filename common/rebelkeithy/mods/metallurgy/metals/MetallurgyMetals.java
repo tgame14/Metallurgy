@@ -2,7 +2,6 @@ package rebelkeithy.mods.metallurgy.metals;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.EventPriority;
+import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -20,6 +21,9 @@ import rebelkeithy.mods.metallurgy.core.MetallurgyTabs;
 import rebelkeithy.mods.metallurgy.core.metalsets.ISwordHitListener;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
 import rebelkeithy.mods.metallurgy.integration.ComputerCraftIntegration;
 import rebelkeithy.mods.metallurgy.integration.IndustrialCraftIntegration;
 import rebelkeithy.mods.metallurgy.integration.RailcraftIntegration;
@@ -32,22 +36,12 @@ import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockMinersTNT;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityLargeTNTPrimed;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityMinersTNTPrimed;
 import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "Metallurgy3Base", name = "Metallurgy 3 Base", version = "3.2.3", dependencies = "required-after:Metallurgy3Core")
-@NetworkMod(channels =
-{ "MetallurgyBase" }, clientSideRequired = true, serverSideRequired = false)
 public class MetallurgyMetals
 {
 
@@ -98,14 +92,7 @@ public class MetallurgyMetals
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Block.rail, 14), "X X", "XSX", "X X", 'X', "ingotHepatizon", 'S', Item.stick));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Block.rail, 26), "X X", "XSX", "X X", 'X', "ingotDamascus Steel", 'S', Item.stick));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Block.rail, 32), "X X", "XSX", "X X", 'X', "ingotAngmallen", 'S', Item.stick));
-
     }
-    
-//    private void addEnderRecipes()
-//    {
-//        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.enderPearl, 4), " E ", "E E", " E ", 'E', "ingotMeutoite"));
-//       
-//    }
 
     public void addSwordEffects()
     {
@@ -337,8 +324,8 @@ public class MetallurgyMetals
         }
     }
 
-    @EventHandler
-    public void Init(FMLInitializationEvent event)
+    @ForgeSubscribe(priority = EventPriority.HIGHEST)
+    public void Init(NativePluginInitEvent event)
     {
         // TODO add config for vanilla dusts
         FurnaceRecipes.smelting().addSmelting(dustIron.itemID, 0, new ItemStack(Item.ingotIron), 0.7F);
@@ -417,20 +404,9 @@ public class MetallurgyMetals
         TreeCapitatorIntegration.init();
     }
 
-    public Configuration initConfig(String name)
+    public Configuration initConfig(File dirPath, String name)
     {
-        final File fileDir = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3");
-        fileDir.mkdir();
-        final File cfgFile = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3/Metallurgy" + name + ".cfg");
-
-        try
-        {
-            cfgFile.createNewFile();
-        } catch (final IOException e)
-        {
-        	 MetallurgyCore.log.info(e.getLocalizedMessage());
-        }
-
+        final File cfgFile = new File(dirPath, String.format("Metallurgy%s.cfg", name));
         return new Configuration(cfgFile);
     }
 
@@ -459,8 +435,8 @@ public class MetallurgyMetals
         return enabled;
     }
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
+    @ForgeSubscribe(priority = EventPriority.HIGHEST)
+    public void postInit(NativePluginPostInitEvent event)
     {
         if (isSetEnabled("Base") && baseSet.getOreInfo("Steel").helmet != null)
         {
@@ -497,22 +473,16 @@ public class MetallurgyMetals
         }
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
+    @ForgeSubscribe(priority = EventPriority.HIGHEST)
+    public void preInit(NativePluginPreInitEvent event)
     {
-
-        baseConfig = initConfig("Base");
-        baseConfig.load();
-
-        utilityConfig = initConfig("Utility");
-        utilityConfig.load();
-
-        fantasyConfig = initConfig("Fantasy");
-        
+        final File configDir = event.getMetallurgyConfigDir();
+        baseConfig = initConfig(configDir, "Base");
+        utilityConfig = initConfig(configDir, "Utility");
+        fantasyConfig = initConfig(configDir, "Fantasy");
         
         GameRegistry.registerFuelHandler(new IFuelHandler()
         {
-            
             @Override
             public int getBurnTime(ItemStack fuel)
             {
@@ -527,9 +497,6 @@ public class MetallurgyMetals
                 return 0;
             }
         });
-
-        // potion = new MetallurgyPotion(21, false,
-        // 8356754).setPotionName("Low Gravity");
 
         if (isSetEnabled("Base"))
         {
@@ -567,7 +534,7 @@ public class MetallurgyMetals
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Utility", "Metallurgy: Utility");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
 
-        String filepath = event.getSourceFile().getAbsolutePath();
+        String filepath = event.getMetallurgySourceFile().getAbsolutePath();
 
         try
         {
