@@ -13,7 +13,7 @@ import net.minecraftforge.common.Property;
 import net.minecraftforge.event.EventBus;
 import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
-import rebelkeithy.mods.metallurgy.core.plugins.PluginLoader;
+import rebelkeithy.mods.metallurgy.core.plugin.PluginLoader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
