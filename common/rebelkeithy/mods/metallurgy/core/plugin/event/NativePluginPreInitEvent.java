@@ -19,7 +19,7 @@ public class NativePluginPreInitEvent extends Event
     public NativePluginPreInitEvent(final FMLPreInitializationEvent event, final MetallurgyCore instance, final String version)
     {
         sourceFile = event.getSourceFile();
-        configDir = new File(event.getModConfigurationDirectory(), "Metallurgy");
+        configDir = new File(event.getModConfigurationDirectory(), "Metallurgy3");
         this.version = version;
         logger = event.getModLog();
         this.instance = instance;
