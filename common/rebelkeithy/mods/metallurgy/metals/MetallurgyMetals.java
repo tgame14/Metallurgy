@@ -36,7 +36,6 @@ import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockMinersTNT;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityLargeTNTPrimed;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityMinersTNTPrimed;
 import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -81,9 +80,6 @@ public class MetallurgyMetals
 
     @SidedProxy(clientSide = "rebelkeithy.mods.metallurgy.metals.ClientProxy", serverSide = "rebelkeithy.mods.metallurgy.metals.CommonProxy")
     public static CommonProxy proxy;
-
-    @Instance(value = "Metallurgy3Base")
-    public static MetallurgyMetals instance;
 
     private void addRailRecipes()
     {
