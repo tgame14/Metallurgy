@@ -165,9 +165,10 @@ public class PluginLoader
     private void registerPlugins(final EventBus pluginEventBus)
     {
         for (final IPlugin plugin : plugins)
-            if (plugin.isActive()) pluginEventBus.register(plugin);
+            if (plugin.isActive())
+                for (Object subscriber : plugin.getForgeSubscribers())
+                    pluginEventBus.register(subscriber);
             else
                 MetallurgyCore.log.fine(String.format("Plugin %s not active. Discarding.", plugin));
-
     }
 }
