@@ -448,8 +448,9 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             }
             if (type != DROP)
             {
+            	toolEnum = EnumHelper.addToolMaterial(name, pickLvl, toolDura, toolSpeed, toolDamage, toolEnchant);
                 dust = new ItemMetallurgy(itemIDs).setTextureName("Metallurgy:" + setName + "/" + name + "Dust").setUnlocalizedName(name + "Dust").setCreativeTab(tab);
-                ingot = new ItemMetallurgy(itemIDs + 1).setTextureName("Metallurgy:" + setName + "/" + name + "Ingot").setSmeltinExperience(abstractorXP / 3f)
+                ingot = new ItemMetallurgyWithExtra(itemIDs + 1, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Ingot").setSmeltinExperience(abstractorXP / 3f)
                         .setUnlocalizedName(name + "Ingot").setCreativeTab(tab);
                 AbstractorRecipes.addEssence(ingot.itemID, 0, abstractorXP);
             }

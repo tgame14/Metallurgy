@@ -3,6 +3,8 @@ package rebelkeithy.mods.metallurgy.core.metalsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
@@ -13,10 +15,12 @@ public class ItemMetallurgySword extends ItemSword
 {
     private final List<ISwordHitListener> hlList = new ArrayList<ISwordHitListener>();
     String subText;
+	private EnumToolMaterial material;
 
     public ItemMetallurgySword(int par1, EnumToolMaterial par2EnumToolMaterial)
     {
         super(par1, par2EnumToolMaterial);
+        this.material = par2EnumToolMaterial;
     }
 
     public void addHitListener(ISwordHitListener hl)
@@ -26,13 +30,27 @@ public class ItemMetallurgySword extends ItemSword
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean advancedItemTooltips)
     {
+		list.add("Material: " + this.material.toString());
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+		{
+			list.add("Damage: " + this.material.getDamageVsEntity());
+
+			list.add("Enchantability: " + this.material.getEnchantability());
+			
+			if(!advancedItemTooltips)
+			{
+				list.add("Durability: " + (itemStack.getMaxDamage() - itemStack.getItemDamage()));
+			}
+		}
+    	
         if (subText != null)
         {
             for (final String string : subText.split("-"))
             {
-                par3List.add("\u00A7" + string);
+                list.add("\u00A7" + string);
             }
         }
     }
