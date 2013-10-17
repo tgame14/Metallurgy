@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -40,18 +41,21 @@ public class PluginLoader
     }
 
     public static void loadPlugins(final EventBus pluginEventBus, final File modFile,
-            final File thirdPartyPath)
+            final File thirdPartyPath, final Logger log)
     {
-        final PluginLoader loader = new PluginLoader();
+        final PluginLoader loader = new PluginLoader(log);
         loader.loadNativePlugins(modFile);
         loader.loadThirdPartyPlugins(modFile, thirdPartyPath);
         loader.registerPlugins(pluginEventBus);
     }
 
     private final List<IPlugin> plugins = Lists.newArrayList();
+    private final Logger log;
 
-    private PluginLoader()
-    {}
+    private PluginLoader(final Logger log)
+    {
+        this.log = log;
+    }
 
     private void addPlugin(final String pluginName, final String packageName)
     {
@@ -81,7 +85,7 @@ public class PluginLoader
                 final IPlugin plugin = (IPlugin) pluginCandidate.newInstance();
                 if (plugin != null)
                 {
-                    MetallurgyCore.log.fine("Found plugin " + plugin);
+                    log.fine("Found plugin " + plugin);
                     plugins.add(plugin);
                 }
             }
@@ -165,10 +169,9 @@ public class PluginLoader
     private void registerPlugins(final EventBus pluginEventBus)
     {
         for (final IPlugin plugin : plugins)
-            if (plugin.isActive())
-                for (Object subscriber : plugin.getForgeSubscribers())
-                    pluginEventBus.register(subscriber);
+            if (plugin.isActive()) for (final Object subscriber : plugin.getForgeSubscribers())
+                pluginEventBus.register(subscriber);
             else
-                MetallurgyCore.log.fine(String.format("Plugin %s not active. Discarding.", plugin));
+                log.fine(String.format("Plugin %s not active. Discarding.", plugin));
     }
 }

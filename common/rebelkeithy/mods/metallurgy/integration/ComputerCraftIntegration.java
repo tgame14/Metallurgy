@@ -1,11 +1,12 @@
 package rebelkeithy.mods.metallurgy.integration;
 
-import dan200.turtle.api.ITurtleUpgrade;
-import dan200.turtle.api.TurtleAPI;
+import java.util.logging.Logger;
+
 import net.minecraft.item.Item;
-import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 import rebelkeithy.mods.metallurgy.core.metalsets.OreInfo;
 import rebelkeithy.mods.metallurgy.metals.MetallurgyMetals;
+import dan200.turtle.api.ITurtleUpgrade;
+import dan200.turtle.api.TurtleAPI;
 
 public class ComputerCraftIntegration
 {
@@ -122,17 +123,17 @@ public class ComputerCraftIntegration
 
     }
 
-    public static void init()
+    public static void init(Logger log)
     {
         try
         {
             Class.forName("dan200.turtle.api.TurtleAPI");
 
-            MetallurgyCore.log.info("Metallurgy: Adding ComputerCraft Turtles");
+            log.info("Adding ComputerCraft Turtles");
             addTurtles();
         } catch (final Exception e)
         {
-        	 MetallurgyCore.log.info("Metlalurgy: Skipping ComputerCraft Turtles");
+        	 log.info("Skipping ComputerCraft Turtles");
         }
     }
 }

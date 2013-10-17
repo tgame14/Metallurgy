@@ -37,13 +37,14 @@ public class MetallurgyVanilla
         final Map<String, Map<String, String>> vanillaList = MetalInfoDatabase.getSpreadsheetDataForSet("Vanilla");
         vanillaList.remove("Wood/Leather");
         vanillaList.remove("Stone/Chainmail");
-        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock);
+        final File configDir = event.getMetallurgyConfigDir();
+        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock, configDir);
 
-        VanillaAddons.init();
+        VanillaAddons.init(configDir);
 
-        vanillaSet.initConfig();
+        vanillaSet.initConfig(configDir);
 
-        final File cfgFile = new File(event.getMetallurgyConfigDir(), "MetallurgyVanilla.cfg");
+        final File cfgFile = new File(configDir, "MetallurgyVanilla.cfg");
         final Configuration config = new Configuration(cfgFile);
 
         if (config.get("!enable", "Enable Texture Overrides", true).getBoolean(true))

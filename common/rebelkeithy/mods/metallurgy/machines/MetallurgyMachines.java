@@ -454,7 +454,7 @@ public class MetallurgyMachines
         machineTab = new MetallurgyTabs("Metallurgy: Machines");
         // initStorage();
 
-        ConfigMachines.initConfig();
+        ConfigMachines.initConfig(event.getMetallurgyConfigDir());
 
         initCrusher();
         initFurnace(); 

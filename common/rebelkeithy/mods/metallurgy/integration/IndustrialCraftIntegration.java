@@ -1,5 +1,7 @@
 package rebelkeithy.mods.metallurgy.integration;
 
+import java.util.logging.Logger;
+
 import net.minecraft.item.ItemStack;
 import rebelkeithy.mods.metallurgy.api.IOreInfo;
 import rebelkeithy.mods.metallurgy.api.MetallurgyAPI;
@@ -32,11 +34,11 @@ public class IndustrialCraftIntegration
         }
     }
 
-    public static void init()
+    public static void init(Logger log)
     {
         if (Loader.isModLoaded("IC2"))
         {
-            MetallurgyCore.log.info("Metallurgy: Adding IC2 Integration");
+            log.info("Adding IC2 Integration");
             addCompatability();
         }
     }

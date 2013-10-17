@@ -3,6 +3,7 @@ package rebelkeithy.mods.metallurgy.metals;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -229,20 +230,20 @@ public class MetallurgyMetals
         }
     }
 
-    public void createMidasiumRecipes()
+    public void createMidasiumRecipes(Logger log)
     {
         final String[] ores = OreDictionary.getOreNames();
         for (final String name : ores)
         {
             if (name.contains("dust") && !name.toLowerCase().contains("tiny") && !name.toLowerCase().contains("clay") && !name.toLowerCase().contains("quartz"))
             {
-                MetallurgyCore.log.info("Adding recipe for " + name + " midasium = gold");
+                log.info("Adding recipe for " + name + " midasium = gold");
                 GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dustGold), "dustMidasium", name));
             }
         }
     }
 
-    public void createUtilityItems(MetallurgyCore instance)
+    public void createUtilityItems(MetallurgyCore instance, File configDir)
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.blazeRod), "I", "I", 'I', "ingotVulcanite"));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dustIron, 2), "dustShadow Iron", "dustIgnatius"));
@@ -315,7 +316,7 @@ public class MetallurgyMetals
         GameRegistry.addRecipe(new ShapedOreRecipe(Block.pistonStickyBase, "T", "P", 'T', "itemTar", 'P', Block.pistonBase));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.leash, 2), "SS ", "ST ", "  S", 'T', "itemTar", 'S', Item.silk));
         
-        if (isSetEnabled("Utility"))
+        if (isSetEnabled("Utility", configDir))
         {
             ((MetallurgyTabs) utilityTab).setIconItem(fertilizer.itemID);
         }
@@ -407,67 +408,49 @@ public class MetallurgyMetals
         return new Configuration(cfgFile);
     }
 
-    private boolean isSetEnabled(String setName)
+    private boolean isSetEnabled(String setName, File configDir)
     {
-
-        final File fileDir = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3");
-        fileDir.mkdir();
-        final File cfgFile = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3/Metallurgy" + setName + ".cfg");
-
-        try
-        {
-            cfgFile.createNewFile();
-        } catch (final IOException e)
-        {
-        	 MetallurgyCore.log.info("[Metallurgy3] Could not create configuration file for Metallurgy 3 metal set " + setName + ". Reason:");
-        	 MetallurgyCore.log.info(e.getLocalizedMessage());
-        }
-
+        final File cfgFile = new File(configDir, "Metallurgy" + setName + ".cfg");
         final Configuration config = new Configuration(cfgFile);
-        config.load();
 
         final boolean enabled = config.get("!Enable", "Enable " + setName + " Set", true).getBoolean(true);
 
-        config.save();
+        if (config.hasChanged())
+            config.save();
         return enabled;
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
     public void postInit(NativePluginPostInitEvent event)
     {
-        if (isSetEnabled("Base") && baseSet.getOreInfo("Steel").helmet != null)
+        final File configDir = event.getMetallurgyConfigDir();
+        if (isSetEnabled("Base", configDir) && baseSet.getOreInfo("Steel").helmet != null)
         {
             ((MetallurgyTabs) baseTab).setIconItem(baseSet.getOreInfo("Steel").helmet.itemID);
         }
-        if (isSetEnabled("Precious") && preciousSet.getOreInfo("Platinum").helmet != null)
+        if (isSetEnabled("Precious", configDir) && preciousSet.getOreInfo("Platinum").helmet != null)
         {
             ((MetallurgyTabs) preciousTab).setIconItem(preciousSet.getOreInfo("Platinum").helmet.itemID);
         }
-        if (isSetEnabled("Nether") && netherSet.getOreInfo("Sanguinite").helmet != null)
+        if (isSetEnabled("Nether", configDir) && netherSet.getOreInfo("Sanguinite").helmet != null)
         {
             ((MetallurgyTabs) netherTab).setIconItem(netherSet.getOreInfo("Sanguinite").helmet.itemID);
         }
-        if (isSetEnabled("Fantasy") && fantasySet.getOreInfo("Tartarite").helmet != null)
+        if (isSetEnabled("Fantasy", configDir) && fantasySet.getOreInfo("Tartarite").helmet != null)
         {
             ((MetallurgyTabs) fantasyTab).setIconItem(fantasySet.getOreInfo("Tartarite").helmet.itemID);
         }
-        if (isSetEnabled("Ender") && enderSet.getOreInfo("Desichalkos").helmet != null)
+        if (isSetEnabled("Ender", configDir) && enderSet.getOreInfo("Desichalkos").helmet != null)
         {
             ((MetallurgyTabs) enderTab).setIconItem(enderSet.getOreInfo("Desichalkos").helmet.itemID);
         }
 
-        createMidasiumRecipes();
+        final Logger log = event.getMetallurgyLog();
+        createMidasiumRecipes(log);
         ThaumcraftIntegration.init();
-        IndustrialCraftIntegration.init();
-        RailcraftIntegration.init();
-
-        try
-        {
-            Class.forName("dan200.turtle.api.TurtleAPI");
-            ComputerCraftIntegration.init();
-        } catch (final Exception e)
-        {
-        }
+        IndustrialCraftIntegration.init(log);
+        RailcraftIntegration.init(log);
+        ComputerCraftIntegration.init(log);
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
@@ -495,7 +478,7 @@ public class MetallurgyMetals
             }
         });
 
-        if (isSetEnabled("Base"))
+        if (isSetEnabled("Base", configDir))
         {
             baseTab = new MetallurgyTabs("Metallurgy: Base");
         }
@@ -503,23 +486,23 @@ public class MetallurgyMetals
         {
             baseTab = CreativeTabs.tabBlock;
         }
-        if (isSetEnabled("Precious"))
+        if (isSetEnabled("Precious", configDir))
         {
             preciousTab = new MetallurgyTabs("Metallurgy: Precious");
         }
-        if (isSetEnabled("Nether"))
+        if (isSetEnabled("Nether", configDir))
         {
             netherTab = new MetallurgyTabs("Metallurgy: Nether");
         }
-        if (isSetEnabled("Fantasy"))
+        if (isSetEnabled("Fantasy", configDir))
         {
             fantasyTab = new MetallurgyTabs("Metallurgy: Fantasy");
         }
-        if (isSetEnabled("Ender"))
+        if (isSetEnabled("Ender", configDir))
         {
             enderTab = new MetallurgyTabs("Metallurgy: Ender");
         }
-        if (isSetEnabled("Utility"))
+        if (isSetEnabled("Utility", configDir))
         {
             utilityTab = new MetallurgyTabs("Metallurgy: Utility");
         }
@@ -544,22 +527,22 @@ public class MetallurgyMetals
 
         utilityConfig.save();
 
-        baseSet = new MetalSet("Base", MetalInfoDatabase.getSpreadsheetDataForSet("Base"), baseTab);
-        preciousSet = new MetalSet("Precious", MetalInfoDatabase.getSpreadsheetDataForSet("Precious"), preciousTab);
-        netherSet = new MetalSet("Nether", MetalInfoDatabase.getSpreadsheetDataForSet("Nether"), netherTab);
-        fantasySet = new MetalSet("Fantasy", MetalInfoDatabase.getSpreadsheetDataForSet("Fantasy"), fantasyTab);
-        enderSet = new MetalSet("Ender", MetalInfoDatabase.getSpreadsheetDataForSet("Ender"), enderTab);
-        utilitySet = new MetalSet("Utility", MetalInfoDatabase.getSpreadsheetDataForSet("Utility"), utilityTab);
+        baseSet = new MetalSet("Base", MetalInfoDatabase.getSpreadsheetDataForSet("Base"), baseTab, configDir);
+        preciousSet = new MetalSet("Precious", MetalInfoDatabase.getSpreadsheetDataForSet("Precious"), preciousTab, configDir);
+        netherSet = new MetalSet("Nether", MetalInfoDatabase.getSpreadsheetDataForSet("Nether"), netherTab, configDir);
+        fantasySet = new MetalSet("Fantasy", MetalInfoDatabase.getSpreadsheetDataForSet("Fantasy"), fantasyTab, configDir);
+        enderSet = new MetalSet("Ender", MetalInfoDatabase.getSpreadsheetDataForSet("Ender"), enderTab, configDir);
+        utilitySet = new MetalSet("Utility", MetalInfoDatabase.getSpreadsheetDataForSet("Utility"), utilityTab, configDir);
 
         dustIron = new ItemMetallurgy(5100).setTextureName("Metallurgy:Vanilla/IronDust").setUnlocalizedName("Metallurgy:Vanilla/IronDust")
                 .setCreativeTab(CreativeTabs.tabMaterials);
         dustGold = new ItemMetallurgy(5101).setTextureName("Metallurgy:Vanilla/GoldDust").setUnlocalizedName("Metallurgy:Vanilla/GoldDust")
                 .setCreativeTab(CreativeTabs.tabMaterials);
 
-        if (isSetEnabled("Utility"))
+        if (isSetEnabled("Utility", configDir))
         {
             utilityConfig.load();
-            createUtilityItems(event.getMetallurgyInstance());
+            createUtilityItems(event.getMetallurgyInstance(), configDir);
             utilityConfig.save();
         }
     }
