@@ -1,10 +1,12 @@
 package rebelkeithy.mods.metallurgy.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -150,7 +152,15 @@ public class MetallurgyCore
         {
             if (!filename.equals(""))
             {
-                MetalInfoDatabase.readMetalDataFromFile(event.getModConfigurationDirectory() +"/Metallurgy3/" + filename);
+                try
+                {
+                    MetalInfoDatabase.readMetalDataFromFile(event.getModConfigurationDirectory() +"/Metallurgy3/" + filename);
+                }
+                catch (FileNotFoundException e)
+                {
+                    log.log(Level.WARNING, String.format(
+                            "User supplied file (%s) not found. Check config file.", filename), e);
+                }
             }
         }
         for (final String set : setsToRead)

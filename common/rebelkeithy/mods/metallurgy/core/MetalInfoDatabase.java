@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -115,26 +114,18 @@ public class MetalInfoDatabase
         }
     }
 
-    public static void readItemDataFromClassPath(Configuration config, String resourcePath, CreativeTabs tab)
+    public static void readItemDataFromClassPath(Configuration config, String resourcePath, CreativeTabs tab) throws IOException
     {
         final BufferedReader in = bufferedReaderFromClassPathResource(resourcePath);
         readItemData(config, in, tab);
     }
 
-    public static void readMetalDataFromFile(String filepath)
+    public static void readMetalDataFromFile(String filepath) throws FileNotFoundException
     {
-        try
-        {
-            readOreData(bufferedReaderFromFile(filepath));
-        }
-        catch (FileNotFoundException e)
-        {
-            MetallurgyCore.log.log(Level.WARNING, String.format(
-                    "User supplied file (%s) not found. Check config file.", filepath), e);
-        }
+        readOreData(bufferedReaderFromFile(filepath));
     }
 
-    public static void readMetalDataFromClassPath(String resourcePath)
+    public static void readMetalDataFromClassPath(String resourcePath) throws IOException
     {
         readOreData(bufferedReaderFromClassPathResource(resourcePath));
     }
@@ -144,20 +135,11 @@ public class MetalInfoDatabase
         return Files.newReader(new File(filePath), Charsets.UTF_8);
     }
     
-    private static BufferedReader bufferedReaderFromClassPathResource(String resourcePath)
+    private static BufferedReader bufferedReaderFromClassPathResource(String resourcePath) throws IOException
     {
         URL url = Resources.getResource(resourcePath);
         InputSupplier<InputStreamReader> readerSupplier = Resources.newReaderSupplier(url, Charsets.UTF_8);
-        BufferedReader in;
-        try
-        {
-            in = new BufferedReader(readerSupplier.getInput());
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        return in;
+        return new BufferedReader(readerSupplier.getInput());
     }
 
     private static void readOreData(BufferedReader in)

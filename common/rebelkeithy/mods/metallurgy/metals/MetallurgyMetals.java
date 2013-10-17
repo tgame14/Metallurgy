@@ -2,6 +2,7 @@ package rebelkeithy.mods.metallurgy.metals;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -531,8 +532,15 @@ public class MetallurgyMetals
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
 
         String filepath = "assets/metallurgy/data";
-        MetalInfoDatabase.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
-        MetalInfoDatabase.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
+        try
+        {
+            MetalInfoDatabase.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
+            MetalInfoDatabase.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
+        }
+        catch (IOException e)
+        {
+            event.getMetallurgyLog().log(Level.SEVERE, "Internal data resource corrupt of missing. Check integrity of mod archive.", e);
+        }
 
         utilityConfig.save();
 
