@@ -9,11 +9,13 @@ public class NativePluginPostInitEvent extends Event
 {
     private final Logger logger;
     private final File configDir;
+    private final boolean debug;
 
-    public NativePluginPostInitEvent(final Logger logger, final File configDir)
+    public NativePluginPostInitEvent(final Logger logger, final File configDir, final boolean debug)
     {
         this.logger = logger;
         this.configDir = configDir;
+        this.debug = debug;
     }
 
     public File getMetallurgyConfigDir()
@@ -24,5 +26,10 @@ public class NativePluginPostInitEvent extends Event
     public Logger getMetallurgyLog()
     {
         return logger;
+    }
+
+    public boolean isDebugMode()
+    {
+        return debug;
     }
 }

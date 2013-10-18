@@ -334,7 +334,7 @@ public class MetallurgyMetals
         OreDictionary.registerOre("dustIron", dustIron);
         OreDictionary.registerOre("dustGold", dustGold);
 
-        if (MetallurgyCore.DEBUG)
+        if (event.isDebugMode())
         {
             debug = new ItemOreFinder(5102).setUnlocalizedName("stick").setCreativeTab(CreativeTabs.tabTools);
         }

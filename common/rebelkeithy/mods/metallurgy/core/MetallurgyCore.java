@@ -32,33 +32,34 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = "Metallurgy3", name = "Metallurgy 3", version = MetallurgyCore.MOD_VERSION, dependencies = "required-after:KeithyUtils@[1.2,]")
+@Mod(modid = MetallurgyCore.MOD_ID, name = MetallurgyCore.MOD_NAME, version = MetallurgyCore.MOD_VERSION, dependencies = MetallurgyCore.MOD_DEPENDENCIES)
 @NetworkMod(channels =
-{ "MetallurgyCore" }, clientSideRequired = true, serverSideRequired = false)
+{ MetallurgyCore.MOD_CHANNEL }, clientSideRequired = true, serverSideRequired = false)
 public class MetallurgyCore
 {
     public static final String MOD_VERSION = "3.2.3";
-    
-    @SidedProxy(clientSide = "rebelkeithy.mods.metallurgy.core.ClientProxy", serverSide = "rebelkeithy.mods.metallurgy.core.CommonProxy")
-    public static CommonProxy proxy;
+    public static final String MOD_ID = "Metallurgy3";
+    public static final String MOD_NAME = "Metallurgy 3";
+    public static final String MOD_DEPENDENCIES = "required-after:KeithyUtils@[1.2,]";
+    public static final String MOD_CHANNEL ="MetallurgyCore"; 
 
     @Instance(value = "Metallurgy3")
     public static MetallurgyCore instance;
-    
-    public static EventBus PLUGIN_BUS = new EventBus();
+
+    @SidedProxy(clientSide = "rebelkeithy.mods.metallurgy.core.ClientProxy", serverSide = "rebelkeithy.mods.metallurgy.core.CommonProxy")
+    public static CommonProxy proxy;
 
     public static boolean spawnInAir = false;
 
-    public static boolean DEBUG = true;
+    private static boolean DEBUG = true;
 
-    public static Configuration config;
-
-    List<String> csvFiles;
-    List<String> setsToRead;
-
+    private static Configuration config;
+    private EventBus PLUGIN_BUS = new EventBus();
+    private List<String> csvFiles;
+    private List<String> setsToRead;
     private Logger log;
-
     private static List<MetalSet> metalSets;
+    private File configDir;
 
     public static List<MetalSet> getMetalSetList()
     {
@@ -70,15 +71,11 @@ public class MetallurgyCore
         return metalSets;
     }
 
-    MetalSet baseSet;
-
-    private File configDir;
-
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         log.fine("Posting init event to plugins.");
-        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir));
+        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, DEBUG));
         PLUGIN_BUS.post(new PluginInitEvent());
 
         for (final MetalSet set : getMetalSetList())
@@ -89,7 +86,7 @@ public class MetallurgyCore
         MetalInfoDatabase.registerItemsWithOreDict();
     }
 
-    public void initConfig()
+    private void initConfig()
     {
         final File fileDir = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3");
         fileDir.mkdir();
@@ -119,26 +116,26 @@ public class MetallurgyCore
             config.save();
         }
     }
-    
+
     public static Boolean getConfigSettingBoolean(String category, String name, Boolean defaultValue)
     {
-    	config.load();
-    	
-    	Property property = config.get(category, name, defaultValue);
-    	
-    	if(config.hasChanged())
-    	{
-    		config.save();
-    	}
-    	
-    	return property.getBoolean(defaultValue);
+        config.load();
+
+        Property property = config.get(category, name, defaultValue);
+
+        if(config.hasChanged())
+        {
+            config.save();
+        }
+
+        return property.getBoolean(defaultValue);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         log.fine("Posting postInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir));
+        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, DEBUG));
         PLUGIN_BUS.post(new PluginPostInitEvent());
     }
 
@@ -175,12 +172,12 @@ public class MetallurgyCore
         }
 
         NetworkRegistry.instance().registerGuiHandler(this, GuiRegistry.instance());
-        
+
         log.fine("Loading plugins.");
         PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"), log);
-        
+
         log.fine("Posting preInit event to plugins.");
-        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION);
+        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, DEBUG);
         configDir = pluginEvent.getMetallurgyConfigDir();
         PLUGIN_BUS.post(pluginEvent);
         PLUGIN_BUS.post(new PluginPreInitEvent(event, MOD_VERSION));
