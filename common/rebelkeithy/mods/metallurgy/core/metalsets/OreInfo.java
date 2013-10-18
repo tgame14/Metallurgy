@@ -102,14 +102,18 @@ public class OreInfo implements IOreInfo, IWorldGenerator
     public Item chest;
     public Item legs;
     public Item boots;
+    
+    private final MetalInfoDatabase dbMetal;
 
     // NULL Constructor
     public OreInfo()
     {
+        dbMetal = null;
     }
 
-    public OreInfo(Map<String, String> info, CreativeTabs tab)
+    public OreInfo(Map<String, String> info, CreativeTabs tab, MetalInfoDatabase dbMetal)
     {
+        this.dbMetal = dbMetal;
         setName = info.get("Metal Set");
         name = info.get("Name");
         this.tab = tab;
@@ -350,7 +354,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
     {
         if (dropName != null)
         {
-            return MetalInfoDatabase.getItem(dropName);
+            return dbMetal.getItem(dropName);
         }
         else
         {
@@ -435,7 +439,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
                 ore = new SubBlock(oreID, oreMeta, "Metallurgy:" + setName + "/" + name + "Ore").setUnlocalizedName(setName + oreID).setCreativeTab(tab);
                 if (type == DROP)
                 {
-                    ore.setBlockDrops(MetalInfoDatabase.getItem(dropName), dropMin, dropMax);
+                    ore.setBlockDrops(dbMetal.getItem(dropName), dropMin, dropMax);
                 }
             }
             if (type != DROP && blockID != 0)

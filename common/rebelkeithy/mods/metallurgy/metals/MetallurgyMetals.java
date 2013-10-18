@@ -243,7 +243,7 @@ public class MetallurgyMetals
         }
     }
 
-    public void createUtilityItems(MetallurgyCore instance, File configDir)
+    public void createUtilityItems(MetallurgyCore instance, File configDir, MetalInfoDatabase dbMetal)
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.blazeRod), "I", "I", 'I', "ingotVulcanite"));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(dustIron, 2), "dustShadow Iron", "dustIgnatius"));
@@ -309,7 +309,7 @@ public class MetallurgyMetals
         tar = new ItemMetallurgy(id).setTextureName("Metallurgy:Utility/Tar").setUnlocalizedName("Metallurgy:Utility/Tar").setCreativeTab(utilityTab);
         LanguageRegistry.addName(tar, "Tar");
         OreDictionary.registerOre("itemTar", tar);
-        GameRegistry.addSmelting(MetalInfoDatabase.getItem("Bitumen").itemID, new ItemStack(tar), 0.1F);
+        GameRegistry.addSmelting(dbMetal.getItem("Bitumen").itemID, new ItemStack(tar), 0.1F);
 
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.gunpowder, 4), new ItemStack(Item.coal, 1, 1), "dustSulfur", "dustSaltpeter"));
         GameRegistry.addRecipe(new ShapelessOreRecipe(Item.magmaCream, "itemTar", Item.blazePowder));
@@ -515,10 +515,11 @@ public class MetallurgyMetals
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
 
         String filepath = "assets/metallurgy/data";
+        final MetalInfoDatabase dbMetal = event.getMetalDatabase();
         try
         {
-            MetalInfoDatabase.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
-            MetalInfoDatabase.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
+            dbMetal.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
+            dbMetal.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
         }
         catch (IOException e)
         {
@@ -527,12 +528,12 @@ public class MetallurgyMetals
 
         utilityConfig.save();
 
-        baseSet = new MetalSet("Base", MetalInfoDatabase.getSpreadsheetDataForSet("Base"), baseTab, configDir);
-        preciousSet = new MetalSet("Precious", MetalInfoDatabase.getSpreadsheetDataForSet("Precious"), preciousTab, configDir);
-        netherSet = new MetalSet("Nether", MetalInfoDatabase.getSpreadsheetDataForSet("Nether"), netherTab, configDir);
-        fantasySet = new MetalSet("Fantasy", MetalInfoDatabase.getSpreadsheetDataForSet("Fantasy"), fantasyTab, configDir);
-        enderSet = new MetalSet("Ender", MetalInfoDatabase.getSpreadsheetDataForSet("Ender"), enderTab, configDir);
-        utilitySet = new MetalSet("Utility", MetalInfoDatabase.getSpreadsheetDataForSet("Utility"), utilityTab, configDir);
+        baseSet = new MetalSet("Base", dbMetal.getSpreadsheetDataForSet("Base"), baseTab, dbMetal, configDir);
+        preciousSet = new MetalSet("Precious", dbMetal.getSpreadsheetDataForSet("Precious"), preciousTab, dbMetal, configDir);
+        netherSet = new MetalSet("Nether", dbMetal.getSpreadsheetDataForSet("Nether"), netherTab, dbMetal, configDir);
+        fantasySet = new MetalSet("Fantasy", dbMetal.getSpreadsheetDataForSet("Fantasy"), fantasyTab, dbMetal, configDir);
+        enderSet = new MetalSet("Ender", dbMetal.getSpreadsheetDataForSet("Ender"), enderTab, dbMetal, configDir);
+        utilitySet = new MetalSet("Utility", dbMetal.getSpreadsheetDataForSet("Utility"), utilityTab, dbMetal, configDir);
 
         dustIron = new ItemMetallurgy(5100).setTextureName("Metallurgy:Vanilla/IronDust").setUnlocalizedName("Metallurgy:Vanilla/IronDust")
                 .setCreativeTab(CreativeTabs.tabMaterials);
@@ -542,7 +543,7 @@ public class MetallurgyMetals
         if (isSetEnabled("Utility", configDir))
         {
             utilityConfig.load();
-            createUtilityItems(event.getMetallurgyInstance(), configDir);
+            createUtilityItems(event.getMetallurgyInstance(), configDir, dbMetal);
             utilityConfig.save();
         }
     }

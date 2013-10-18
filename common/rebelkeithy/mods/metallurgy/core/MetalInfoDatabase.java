@@ -29,11 +29,16 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class MetalInfoDatabase
 {
-    private static List<Map<String, String>> spreadsheet;
-    private static Map<String, Item> items;
-    private static Map<String, String> oreDictNames;
+    private List<Map<String, String>> spreadsheet;
+    private Map<String, Item> items;
+    private Map<String, String> oreDictNames;
+    
+    MetalInfoDatabase()
+    {
+        // Limit visibility -- only same package (ie. MetallurgyCore) can create
+    }
 
-    public static ItemStack getItem(String itemName)
+    public ItemStack getItem(String itemName)
     {
         if (items == null || !items.containsKey(itemName))
         {
@@ -43,7 +48,7 @@ public class MetalInfoDatabase
         return new ItemStack(items.get(itemName));
     }
 
-    public static Map<String, Map<String, String>> getSpreadsheetDataForSet(String name)
+    public Map<String, Map<String, String>> getSpreadsheetDataForSet(String name)
     {
         final Map<String, Map<String, String>> returnData = new HashMap<String, Map<String, String>>();
 
@@ -63,7 +68,7 @@ public class MetalInfoDatabase
         return returnData;
     }
 
-    private static void readItemData(Configuration config, BufferedReader in, CreativeTabs tab)
+    private void readItemData(Configuration config, BufferedReader in, CreativeTabs tab)
     {
         if (items == null)
         {
@@ -114,35 +119,35 @@ public class MetalInfoDatabase
         }
     }
 
-    public static void readItemDataFromClassPath(Configuration config, String resourcePath, CreativeTabs tab) throws IOException
+    public void readItemDataFromClassPath(Configuration config, String resourcePath, CreativeTabs tab) throws IOException
     {
         final BufferedReader in = bufferedReaderFromClassPathResource(resourcePath);
         readItemData(config, in, tab);
     }
 
-    static void readMetalDataFromFile(String filepath) throws FileNotFoundException
+    void readMetalDataFromFile(String filepath) throws FileNotFoundException
     {
         readOreData(bufferedReaderFromFile(filepath));
     }
 
-    public static void readMetalDataFromClassPath(String resourcePath) throws IOException
+    public void readMetalDataFromClassPath(String resourcePath) throws IOException
     {
         readOreData(bufferedReaderFromClassPathResource(resourcePath));
     }
 
-    private static BufferedReader bufferedReaderFromFile(String filePath) throws FileNotFoundException
+    private BufferedReader bufferedReaderFromFile(String filePath) throws FileNotFoundException
     {
         return Files.newReader(new File(filePath), Charsets.UTF_8);
     }
     
-    private static BufferedReader bufferedReaderFromClassPathResource(String resourcePath) throws IOException
+    private BufferedReader bufferedReaderFromClassPathResource(String resourcePath) throws IOException
     {
         URL url = Resources.getResource(resourcePath);
         InputSupplier<InputStreamReader> readerSupplier = Resources.newReaderSupplier(url, Charsets.UTF_8);
         return new BufferedReader(readerSupplier.getInput());
     }
 
-    private static void readOreData(BufferedReader in)
+    private void readOreData(BufferedReader in)
     {
         if (spreadsheet == null)
         {
@@ -177,7 +182,7 @@ public class MetalInfoDatabase
         }
     }
 
-    static void registerItemsWithOreDict()
+    void registerItemsWithOreDict()
     {
         for (final String name : oreDictNames.keySet())
         {

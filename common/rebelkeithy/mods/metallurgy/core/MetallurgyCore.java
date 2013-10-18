@@ -59,6 +59,7 @@ public class MetallurgyCore
     private List<String> setsToRead;
     private Logger log;
     private static List<MetalSet> metalSets;
+    private MetalInfoDatabase dbMetal = new MetalInfoDatabase();
     private File configDir;
 
     public static List<MetalSet> getMetalSetList()
@@ -75,7 +76,7 @@ public class MetallurgyCore
     public void init(FMLInitializationEvent event)
     {
         log.fine("Posting init event to plugins.");
-        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, DEBUG));
+        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, dbMetal, DEBUG));
         PLUGIN_BUS.post(new PluginInitEvent());
 
         for (final MetalSet set : getMetalSetList())
@@ -83,7 +84,7 @@ public class MetallurgyCore
             set.load();
             proxy.registerNamesForMetalSet(set);
         }
-        MetalInfoDatabase.registerItemsWithOreDict();
+        dbMetal.registerItemsWithOreDict();
     }
 
     private void initConfig()
@@ -135,8 +136,9 @@ public class MetallurgyCore
     public void postInit(FMLPostInitializationEvent event)
     {
         log.fine("Posting postInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, DEBUG));
+        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, dbMetal, DEBUG));
         PLUGIN_BUS.post(new PluginPostInitEvent());
+        dbMetal = null; // Free memory unless someone else kept a reference
     }
 
     @EventHandler
@@ -153,7 +155,7 @@ public class MetallurgyCore
             {
                 try
                 {
-                    MetalInfoDatabase.readMetalDataFromFile(event.getModConfigurationDirectory() +"/Metallurgy3/" + filename);
+                    dbMetal.readMetalDataFromFile(event.getModConfigurationDirectory() +"/Metallurgy3/" + filename);
                 }
                 catch (FileNotFoundException e)
                 {
@@ -167,7 +169,7 @@ public class MetallurgyCore
             if (!set.equals(""))
             {
                 final CreativeTabs tab = new CreativeTabs(set);
-                new MetalSet(set, MetalInfoDatabase.getSpreadsheetDataForSet(set), tab, event.getModConfigurationDirectory());
+                new MetalSet(set, dbMetal.getSpreadsheetDataForSet(set), tab, dbMetal, event.getModConfigurationDirectory());
             }
         }
 
@@ -177,7 +179,7 @@ public class MetallurgyCore
         PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"), log);
 
         log.fine("Posting preInit event to plugins.");
-        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, DEBUG);
+        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, dbMetal, DEBUG);
         configDir = pluginEvent.getMetallurgyConfigDir();
         PLUGIN_BUS.post(pluginEvent);
         PLUGIN_BUS.post(new PluginPreInitEvent(event, MOD_VERSION));

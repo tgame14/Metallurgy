@@ -1,7 +1,6 @@
 package rebelkeithy.mods.metallurgy.core.metalsets;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 import rebelkeithy.mods.metallurgy.api.IMetalSet;
 import rebelkeithy.mods.metallurgy.api.IOreInfo;
+import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 
 public class MetalSet implements IMetalSet
@@ -17,7 +17,7 @@ public class MetalSet implements IMetalSet
     private final Map<String, IOreInfo> metals;
     private Configuration config;
 
-    public MetalSet(String setName, Map<String, Map<String, String>> baseData, CreativeTabs tab, File configDir)
+    public MetalSet(String setName, Map<String, Map<String, String>> baseData, CreativeTabs tab, final MetalInfoDatabase dbMetal, File configDir)
     {
         this.setName = setName;
 
@@ -25,7 +25,7 @@ public class MetalSet implements IMetalSet
 
         for (final Map<String, String> metalInfo : baseData.values())
         {
-            metals.put(metalInfo.get("Name"), new OreInfo(metalInfo, tab));
+            metals.put(metalInfo.get("Name"), new OreInfo(metalInfo, tab, dbMetal));
         }
 
         MetallurgyCore.getMetalSetList().add(this);

@@ -9,7 +9,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import rebelkeithy.mods.keithyutils.reflection.Reflector;
-import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
@@ -34,11 +33,11 @@ public class MetallurgyVanilla
     public void preInit(NativePluginPreInitEvent event)
     {
 
-        final Map<String, Map<String, String>> vanillaList = MetalInfoDatabase.getSpreadsheetDataForSet("Vanilla");
+        final Map<String, Map<String, String>> vanillaList = event.getMetalDatabase().getSpreadsheetDataForSet("Vanilla");
         vanillaList.remove("Wood/Leather");
         vanillaList.remove("Stone/Chainmail");
         final File configDir = event.getMetallurgyConfigDir();
-        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock, configDir);
+        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock, event.getMetalDatabase(), configDir);
 
         VanillaAddons.init(configDir);
 

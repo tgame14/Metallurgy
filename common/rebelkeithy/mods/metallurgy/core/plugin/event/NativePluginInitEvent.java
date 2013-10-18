@@ -4,18 +4,27 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraftforge.event.Event;
+import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 
 public class NativePluginInitEvent extends Event
 {
     private final Logger logger;
     private final File configDir;
     private final boolean debug;
+    private final MetalInfoDatabase dbMetal;
 
-    public NativePluginInitEvent(final Logger logger, final File configDir, final boolean debug)
+    public NativePluginInitEvent(final Logger logger, final File configDir,
+            final MetalInfoDatabase dbMetal, final boolean debug)
     {
         this.logger = logger;
         this.configDir = configDir;
         this.debug = debug;
+        this.dbMetal = dbMetal;
+    }
+
+    public MetalInfoDatabase getMetalDatabase()
+    {
+        return dbMetal;
     }
 
     public File getMetallurgyConfigDir()

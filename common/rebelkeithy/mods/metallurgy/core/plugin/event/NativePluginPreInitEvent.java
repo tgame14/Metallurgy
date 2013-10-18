@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraftforge.event.Event;
+import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
@@ -15,9 +16,11 @@ public class NativePluginPreInitEvent extends Event
     private final String version;
     private final Logger logger;
     private final MetallurgyCore instance;
+    private final MetalInfoDatabase dbMetal;
 
     public NativePluginPreInitEvent(final FMLPreInitializationEvent event,
-            final MetallurgyCore instance, final String version, final boolean debug)
+            final MetallurgyCore instance, final String version, final MetalInfoDatabase dbMetal,
+            final boolean debug)
     {
         sourceFile = event.getSourceFile();
         configDir = new File(event.getModConfigurationDirectory(), "Metallurgy3");
@@ -25,6 +28,12 @@ public class NativePluginPreInitEvent extends Event
         logger = event.getModLog();
         this.instance = instance;
         this.debug = debug;
+        this.dbMetal = dbMetal;
+    }
+
+    public MetalInfoDatabase getMetalDatabase()
+    {
+        return dbMetal;
     }
 
     public File getMetallurgyConfigDir()
