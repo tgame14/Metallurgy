@@ -120,7 +120,7 @@ public class MetalInfoDatabase
         readItemData(config, in, tab);
     }
 
-    public static void readMetalDataFromFile(String filepath) throws FileNotFoundException
+    static void readMetalDataFromFile(String filepath) throws FileNotFoundException
     {
         readOreData(bufferedReaderFromFile(filepath));
     }
@@ -177,7 +177,7 @@ public class MetalInfoDatabase
         }
     }
 
-    public static void registerItemsWithOreDict()
+    static void registerItemsWithOreDict()
     {
         for (final String name : oreDictNames.keySet())
         {
