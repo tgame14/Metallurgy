@@ -147,7 +147,7 @@ public class MetalInfoDatabase
     void registerItemsWithOreDict()
     {
         for (final Map.Entry<String, String> entry : oreDictNames.entrySet())
-            OreDictionary.registerOre(entry.getKey(), items.get(entry.getValue()));
+            OreDictionary.registerOre(entry.getValue(), items.get(entry.getKey()));
         oreDictNames = Collections.emptyMap();
     }
 }
