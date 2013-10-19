@@ -1,13 +1,8 @@
 package rebelkeithy.mods.metallurgy.core;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,175 +13,141 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.io.Files;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
+import com.google.common.io.CharStreams;
 import com.google.common.io.InputSupplier;
-import com.google.common.io.Resources;
+import com.google.common.io.LineProcessor;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class MetalInfoDatabase
 {
-    private List<Map<String, String>> spreadsheet;
-    private Map<String, Item> items;
-    private Map<String, String> oreDictNames;
-    
+    private static Map<String, String> nameValuePairsFromCSVLine(final Iterable<String> fields,
+            final List<String> header)
+    {
+        final Map<String, String> data = Maps.newHashMap();
+
+        int i = 0;
+        for (String field : fields)
+        {
+            if (field.isEmpty() || field.equals("-")) field = "0";
+            data.put(header.get(i++), field);
+        }
+        return data;
+    }
+
+    private final Table<String, String, Map<String, String>> metalSets = HashBasedTable.create();
+    private final Map<String, Item> items = Maps.newHashMap();
+    private Map<String, String> oreDictNames = Collections.emptyMap();
+
     MetalInfoDatabase()
     {
         // Limit visibility -- only same package (ie. MetallurgyCore) can create
     }
 
-    public ItemStack getItem(String itemName)
+    public Map<String, Map<String, String>> getDataForSet(final String name)
     {
-        if (items == null || !items.containsKey(itemName))
-        {
-            return null;
-        }
+        return ImmutableMap.copyOf(metalSets.row(name));
+    }
+
+    public ItemStack getItem(final String itemName)
+    {
+        if (items == null || !items.containsKey(itemName)) return null;
 
         return new ItemStack(items.get(itemName));
     }
 
-    public Map<String, Map<String, String>> getSpreadsheetDataForSet(String name)
+    public <R extends Readable & Closeable> void loadItemData(final Configuration config,
+            final InputSupplier<R> input, final CreativeTabs tab) throws IOException
     {
-        final Map<String, Map<String, String>> returnData = new HashMap<String, Map<String, String>>();
-
-        if (spreadsheet == null)
+        final List<String> lines = read(input);
+        final List<String> header = Lists.newArrayList();
+        for (final String line : lines)
         {
-            return returnData;
+            final Iterable<String> fields = Splitter.on(',').split(line);
+            if (header.isEmpty()) for (final String field : fields)
+                header.add(field);
+            else
+                parseItemDataLine(fields, header, config, tab);
         }
+    }
 
-        for (final Map<String, String> data : spreadsheet)
+    public <R extends Readable & Closeable> void loadMetalSet(final InputSupplier<R> input)
+            throws IOException
+    {
+        final List<String> lines = read(input);
+        final List<String> header = Lists.newArrayList();
+        for (final String line : lines)
         {
+            final Iterable<String> fields = Splitter.on(',').split(line);
+            if (header.isEmpty()) for (final String field : fields)
+                header.add(field);
+            else
+                parseMetalSetLine(fields, header);
+        }
+    }
 
-            if (data.get("Metal Set").equals(name))
+    private void parseItemDataLine(final Iterable<String> fields, final List<String> header,
+            final Configuration config, final CreativeTabs tab)
+    {
+        final Map<String, String> data = nameValuePairsFromCSVLine(fields, header);
+        int id = Integer.parseInt(data.get("Item ID"));
+
+        final String itemName = data.get("Item Name");
+        final String setName = data.get("Set Name");
+
+        id = config.get("Item IDs", itemName, id).getInt();
+        final Item item =
+                new ItemMetallurgy(id).setTextureName("Metallurgy:" + setName + "/" + itemName)
+                        .setUnlocalizedName("Metallurgy:" + setName + "/" + itemName)
+                        .setCreativeTab(tab);
+        LanguageRegistry.addName(item, itemName);
+
+        items.put(itemName, item);
+        if (!data.get("Ore Dictionary Name").equals("0"))
+        {
+            if (oreDictNames.isEmpty()) oreDictNames = Maps.newHashMap();
+            oreDictNames.put(itemName, data.get("Ore Dictionary Name"));
+        }
+    }
+
+    private void parseMetalSetLine(final Iterable<String> fields, final List<String> header)
+    {
+        final Map<String, String> data = nameValuePairsFromCSVLine(fields, header);
+        metalSets.put(data.get("Metal Set"), data.get("Name"), data);
+    }
+
+    private <R extends Readable & Closeable> List<String> read(final InputSupplier<R> input)
+            throws IOException
+    {
+        return CharStreams.readLines(input, new LineProcessor<List<String>>()
+        {
+            final List<String> result = Lists.newArrayList();
+
+            @Override
+            public List<String> getResult()
             {
-                returnData.put(data.get("Name"), data);
+                return result;
             }
-        }
-        return returnData;
-    }
 
-    private void readItemData(Configuration config, BufferedReader in, CreativeTabs tab)
-    {
-        if (items == null)
-        {
-            items = new HashMap<String, Item>();
-        }
-        if (oreDictNames == null)
-        {
-            oreDictNames = new HashMap<String, String>();
-        }
-
-        try
-        {
-            String input = in.readLine();
-            final String[] header = input.split(",");
-            input = in.readLine();
-            while (input != null)
+            @Override
+            public boolean processLine(final String line)
             {
-                final String[] inputArray = input.split(",");
-                final Map<String, String> itemMap = new HashMap<String, String>();
-                for (int n = 0; n < inputArray.length; n++)
-                {
-                    if (inputArray[n].equals(""))
-                    {
-                        inputArray[n] = "0";
-                    }
-                    itemMap.put(header[n], inputArray[n]);
-                }
-
-                int id = Integer.parseInt(itemMap.get("Item ID"));
-
-                id = config.get("Item IDs", itemMap.get("Item Name"), id).getInt();
-
-                final Item item = new ItemMetallurgy(id).setTextureName("Metallurgy:" + itemMap.get("Set Name") + "/" + itemMap.get("Item Name"))
-                        .setUnlocalizedName("Metallurgy:" + itemMap.get("Set Name") + "/" + itemMap.get("Item Name")).setCreativeTab(tab);
-                LanguageRegistry.addName(item, itemMap.get("Item Name"));
-
-                items.put(itemMap.get("Item Name"), item);
-                if (!itemMap.get("Ore Dictionary Name").equals("0"))
-                {
-                    oreDictNames.put(itemMap.get("Item Name"), itemMap.get("Ore Dictionary Name"));
-                }
-                input = in.readLine();
+                result.add(line);
+                return true;
             }
-            in.close();
-        } catch (final IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void readItemDataFromClassPath(Configuration config, String resourcePath, CreativeTabs tab) throws IOException
-    {
-        final BufferedReader in = bufferedReaderFromClassPathResource(resourcePath);
-        readItemData(config, in, tab);
-    }
-
-    void readMetalDataFromFile(String filepath) throws FileNotFoundException
-    {
-        readOreData(bufferedReaderFromFile(filepath));
-    }
-
-    public void readMetalDataFromClassPath(String resourcePath) throws IOException
-    {
-        readOreData(bufferedReaderFromClassPathResource(resourcePath));
-    }
-
-    private BufferedReader bufferedReaderFromFile(String filePath) throws FileNotFoundException
-    {
-        return Files.newReader(new File(filePath), Charsets.UTF_8);
-    }
-    
-    private BufferedReader bufferedReaderFromClassPathResource(String resourcePath) throws IOException
-    {
-        URL url = Resources.getResource(resourcePath);
-        InputSupplier<InputStreamReader> readerSupplier = Resources.newReaderSupplier(url, Charsets.UTF_8);
-        return new BufferedReader(readerSupplier.getInput());
-    }
-
-    private void readOreData(BufferedReader in)
-    {
-        if (spreadsheet == null)
-        {
-            spreadsheet = new ArrayList<Map<String, String>>();
-        }
-
-        try
-        {
-            String input = in.readLine();
-            final List<String> header = Lists.newArrayList(Splitter.on(',').split(input));
-            input = in.readLine();
-            while (input != null)
-            {
-                final List<String> inputArray = Lists.newArrayList(Splitter.on(',').split(input));
-                final Map<String, String> oreMap = new HashMap<String, String>();
-                for (int n = 0; n < inputArray.size(); n++)
-                {
-                    String column = inputArray.get(n); 
-                    if (column.equals("") || column.equals("-"))
-                    {
-                        column = "0";
-                    }
-                    oreMap.put(header.get(n), column);
-                }
-                spreadsheet.add(oreMap);
-                input = in.readLine();
-            }
-            in.close();
-        } catch (final IOException e)
-        {
-            e.printStackTrace();
-        }
+        });
     }
 
     void registerItemsWithOreDict()
     {
-        for (final String name : oreDictNames.keySet())
-        {
-            OreDictionary.registerOre(oreDictNames.get(name), items.get(name));
-        }
+        for (final Map.Entry<String, String> entry : oreDictNames.entrySet())
+            OreDictionary.registerOre(entry.getKey(), items.get(entry.getValue()));
+        oreDictNames = Collections.emptyMap();
     }
 }

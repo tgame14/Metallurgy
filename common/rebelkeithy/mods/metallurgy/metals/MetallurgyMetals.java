@@ -2,8 +2,12 @@ package rebelkeithy.mods.metallurgy.metals;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -515,11 +519,13 @@ public class MetallurgyMetals
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
 
         String filepath = "assets/metallurgy/data";
+        final URL metalSetsResource = Resources.getResource(filepath + "/spreadsheet.csv");
+        final URL itemDataResource = Resources.getResource(filepath + "/Items.csv");
         final MetalInfoDatabase dbMetal = event.getMetalDatabase();
         try
         {
-            dbMetal.readMetalDataFromClassPath(filepath + "/spreadsheet.csv");
-            dbMetal.readItemDataFromClassPath(utilityConfig, filepath + "/Items.csv", utilityTab);
+            dbMetal.loadMetalSet(Resources.newReaderSupplier(metalSetsResource, Charsets.UTF_8));
+            dbMetal.loadItemData(utilityConfig, Resources.newReaderSupplier(itemDataResource, Charsets.UTF_8), utilityTab);
         }
         catch (IOException e)
         {
@@ -528,12 +534,12 @@ public class MetallurgyMetals
 
         utilityConfig.save();
 
-        baseSet = new MetalSet("Base", dbMetal.getSpreadsheetDataForSet("Base"), baseTab, dbMetal, configDir);
-        preciousSet = new MetalSet("Precious", dbMetal.getSpreadsheetDataForSet("Precious"), preciousTab, dbMetal, configDir);
-        netherSet = new MetalSet("Nether", dbMetal.getSpreadsheetDataForSet("Nether"), netherTab, dbMetal, configDir);
-        fantasySet = new MetalSet("Fantasy", dbMetal.getSpreadsheetDataForSet("Fantasy"), fantasyTab, dbMetal, configDir);
-        enderSet = new MetalSet("Ender", dbMetal.getSpreadsheetDataForSet("Ender"), enderTab, dbMetal, configDir);
-        utilitySet = new MetalSet("Utility", dbMetal.getSpreadsheetDataForSet("Utility"), utilityTab, dbMetal, configDir);
+        baseSet = new MetalSet("Base", dbMetal.getDataForSet("Base"), baseTab, dbMetal, configDir);
+        preciousSet = new MetalSet("Precious", dbMetal.getDataForSet("Precious"), preciousTab, dbMetal, configDir);
+        netherSet = new MetalSet("Nether", dbMetal.getDataForSet("Nether"), netherTab, dbMetal, configDir);
+        fantasySet = new MetalSet("Fantasy", dbMetal.getDataForSet("Fantasy"), fantasyTab, dbMetal, configDir);
+        enderSet = new MetalSet("Ender", dbMetal.getDataForSet("Ender"), enderTab, dbMetal, configDir);
+        utilitySet = new MetalSet("Utility", dbMetal.getDataForSet("Utility"), utilityTab, dbMetal, configDir);
 
         dustIron = new ItemMetallurgy(5100).setTextureName("Metallurgy:Vanilla/IronDust").setUnlocalizedName("Metallurgy:Vanilla/IronDust")
                 .setCreativeTab(CreativeTabs.tabMaterials);

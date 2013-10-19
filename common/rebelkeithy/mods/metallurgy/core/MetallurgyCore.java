@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
@@ -147,6 +150,7 @@ public class MetallurgyCore
 
         log = event.getModLog();
 
+        configDir = new File(event.getModConfigurationDirectory(), "Metallurgy3");
         initConfig();
 
         for (final String filename : csvFiles)
@@ -155,9 +159,9 @@ public class MetallurgyCore
             {
                 try
                 {
-                    dbMetal.readMetalDataFromFile(event.getModConfigurationDirectory() +"/Metallurgy3/" + filename);
+                    dbMetal.loadMetalSet(Files.newReaderSupplier(new File(configDir, filename), Charsets.UTF_8));
                 }
-                catch (FileNotFoundException e)
+                catch (IOException e)
                 {
                     log.log(Level.WARNING, String.format(
                             "User supplied file (%s) not found. Check config file.", filename), e);
@@ -169,7 +173,7 @@ public class MetallurgyCore
             if (!set.equals(""))
             {
                 final CreativeTabs tab = new CreativeTabs(set);
-                new MetalSet(set, dbMetal.getSpreadsheetDataForSet(set), tab, dbMetal, event.getModConfigurationDirectory());
+                new MetalSet(set, dbMetal.getDataForSet(set), tab, dbMetal, event.getModConfigurationDirectory());
             }
         }
 

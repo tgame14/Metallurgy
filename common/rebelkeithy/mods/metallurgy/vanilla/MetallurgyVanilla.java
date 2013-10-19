@@ -2,6 +2,9 @@ package rebelkeithy.mods.metallurgy.vanilla;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -33,9 +36,10 @@ public class MetallurgyVanilla
     public void preInit(NativePluginPreInitEvent event)
     {
 
-        final Map<String, Map<String, String>> vanillaList = event.getMetalDatabase().getSpreadsheetDataForSet("Vanilla");
-        vanillaList.remove("Wood/Leather");
-        vanillaList.remove("Stone/Chainmail");
+        final Map<String, Map<String, String>> vanillaList = Maps.newHashMap();
+        for (Entry<String, Map<String, String>> entry: event.getMetalDatabase().getDataForSet("Vanilla").entrySet())
+            if (!entry.getKey().equals("Wood/Leather") && !entry.getKey().equals("Stone/Chainmail"))
+                vanillaList.put(entry.getKey(), entry.getValue());
         final File configDir = event.getMetallurgyConfigDir();
         vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock, event.getMetalDatabase(), configDir);
 
