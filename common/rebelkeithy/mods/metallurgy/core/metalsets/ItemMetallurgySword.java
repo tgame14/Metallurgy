@@ -12,9 +12,9 @@ import net.minecraft.item.ItemSword;
 public class ItemMetallurgySword extends ItemSword
 {
     private final List<ISwordHitListener> hlList = new ArrayList<ISwordHitListener>();
-    String subText;
+    private String subText;
 
-    public ItemMetallurgySword(int par1, EnumToolMaterial par2EnumToolMaterial)
+    ItemMetallurgySword(int par1, EnumToolMaterial par2EnumToolMaterial)
     {
         super(par1, par2EnumToolMaterial);
     }

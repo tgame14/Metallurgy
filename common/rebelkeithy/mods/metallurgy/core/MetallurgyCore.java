@@ -1,16 +1,12 @@
 package rebelkeithy.mods.metallurgy.core;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
@@ -25,6 +21,10 @@ import rebelkeithy.mods.metallurgy.core.plugin.PluginLoader;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

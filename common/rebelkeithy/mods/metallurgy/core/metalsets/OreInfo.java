@@ -41,77 +41,85 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class OreInfo implements IOreInfo, IWorldGenerator
 {
-    protected String setName;
-    protected String name;
-    protected boolean enabled;
-    protected CreativeTabs tab;
-    protected OreType type;
-    public int oreID;
-    public int oreMeta;
-    protected int blockID;
-    protected int blockMeta;
-    protected int brickID;
-    protected int brickMeta;
-    protected int itemIDs;
+    private String setName;
+    private String name;
+    private boolean enabled;
+    private CreativeTabs tab;
+    private OreType type;
+    private int oreID;
+    private int oreMeta;
+    private int blockID;
+    private int blockMeta;
+    private int brickID;
+    private int brickMeta;
+    private int itemIDs;
 
-    protected String dropName;
-    protected int dropMin;
-    protected int dropMax;
+    private String dropName;
+    private int dropMin;
+    private int dropMax;
 
-    protected String[] alloyRecipe;
-    protected int abstractorXP;
-    protected int blockLvl;
+    private String[] alloyRecipe;
+    private int abstractorXP;
+    private int blockLvl;
 
-    protected int pickLvl;
-    protected int toolDura;
-    protected int toolDamage;
-    protected int toolSpeed;
-    protected int toolEnchant;
+    private int pickLvl;
+    private int toolDura;
+    private int toolDamage;
+    private int toolSpeed;
+    private int toolEnchant;
 
-    protected int helmetArmor;
-    protected int chestArmor;
-    protected int legsArmor;
-    protected int bootsArmor;
-    protected int armorDura;
+    private int helmetArmor;
+    private int chestArmor;
+    private int legsArmor;
+    private int bootsArmor;
+    private int armorDura;
 
-    protected int dungeonLootChance;
-    protected int dungeonLootAmount;
-    protected int veinCount;
-    protected int oreCount;
-    protected int minHeight;
-    protected int maxHeight;
-    protected int veinChance;
-    protected int veinDensity;
-    protected String[] diminsions;
+    private int dungeonLootChance;
+    private int dungeonLootAmount;
+    private int veinCount;
+    private int oreCount;
+    private int minHeight;
+    private int maxHeight;
+    private int veinChance;
+    private int veinDensity;
+    private String[] diminsions;
 
-    public SubBlock ore;
-    public SubBlock block;
-    public SubBlock brick;
+    private SubBlock ore;
+    private SubBlock block;
+    private SubBlock brick;
 
-    public Item dust;
-    public Item ingot;
+    private Item dust;
+    private Item ingot;
 
-    public EnumToolMaterial toolEnum;
-    public Item pickaxe;
-    public Item shovel;
-    public Item axe;
-    public Item hoe;
-    public ItemMetallurgySword sword;
+    private EnumToolMaterial toolEnum;
+    private Item pickaxe;
+    private Item shovel;
+    private Item axe;
+    private Item hoe;
+    private ItemMetallurgySword sword;
 
-    public Item helmet;
-    public Item chest;
-    public Item legs;
-    public Item boots;
+    private Item helmet;
+    private Item chest;
+    private Item legs;
+    private Item boots;
     
     private final MetalInfoDatabase dbMetal;
+    
+    static OreInfo EMPTY = new OreInfo()
+    {
+        public boolean isEnabled()
+        {
+            return false;
+        }
+    };
 
-    // NULL Constructor
-    public OreInfo()
+    private OreInfo()
     {
         dbMetal = null;
+        // Use EMPTY for empties. Do not let anyone create another empty
     }
 
-    public OreInfo(Map<String, String> info, CreativeTabs tab, MetalInfoDatabase dbMetal)
+    OreInfo(Map<String, String> info, CreativeTabs tab, MetalInfoDatabase dbMetal)
     {
         this.dbMetal = dbMetal;
         setName = info.get("Metal Set");
@@ -216,7 +224,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
 
     }
 
-    public void addRecipes()
+    private void addRecipes()
     {
         if (!enabled)
         {
@@ -425,7 +433,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         return type;
     }
 
-    public void init()
+    void init()
     {
         if (!enabled)
         {
@@ -434,9 +442,10 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         
         if (!type.equals(RESPAWN))
         {
+            final String iconNamePrefix = "Metallurgy:" + setName + "/" + name;
             if (type.generates() && oreID != 0)
             {
-                ore = new SubBlock(oreID, oreMeta, "Metallurgy:" + setName + "/" + name + "Ore").setUnlocalizedName(setName + oreID).setCreativeTab(tab);
+                ore = new SubBlock(oreID, oreMeta, iconNamePrefix + "Ore").setUnlocalizedName(setName + oreID).setCreativeTab(tab);
                 if (type == DROP)
                 {
                     ore.setBlockDrops(dbMetal.getItem(dropName), dropMin, dropMax);
@@ -444,16 +453,16 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             }
             if (type != DROP && blockID != 0)
             {
-                block = new SubBlock(blockID, blockMeta, "Metallurgy:" + setName + "/" + name + "Block").setUnlocalizedName(setName + blockID).setCreativeTab(tab);
+                block = new SubBlock(blockID, blockMeta, iconNamePrefix + "Block").setUnlocalizedName(setName + blockID).setCreativeTab(tab);
             }
             if (type != DROP && brickID != 0)
             {
-                brick = new SubBlock(brickID, brickMeta, "Metallurgy:" + setName + "/" + name + "Brick").setUnlocalizedName(setName + brickID).setCreativeTab(tab);
+                brick = new SubBlock(brickID, brickMeta, iconNamePrefix + "Brick").setUnlocalizedName(setName + brickID).setCreativeTab(tab);
             }
             if (type != DROP)
             {
-                dust = new ItemMetallurgy(itemIDs).setTextureName("Metallurgy:" + setName + "/" + name + "Dust").setUnlocalizedName(name + "Dust").setCreativeTab(tab);
-                ingot = new ItemMetallurgy(itemIDs + 1).setTextureName("Metallurgy:" + setName + "/" + name + "Ingot").setSmeltinExperience(abstractorXP / 3f)
+                dust = new ItemMetallurgy(itemIDs).setTextureName(iconNamePrefix + "Dust").setUnlocalizedName(name + "Dust").setCreativeTab(tab);
+                ingot = new ItemMetallurgy(itemIDs + 1).setTextureName(iconNamePrefix + "Ingot").setSmeltinExperience(abstractorXP / 3f)
                         .setUnlocalizedName(name + "Ingot").setCreativeTab(tab);
                 AbstractorRecipes.addEssence(ingot.itemID, 0, abstractorXP);
             }
@@ -463,13 +472,13 @@ public class OreInfo implements IOreInfo, IWorldGenerator
                 toolEnum = EnumHelper.addToolMaterial(name, pickLvl, toolDura, toolSpeed, toolDamage, toolEnchant);
                 toolEnum.customCraftingMaterial = ingot;
 
-                pickaxe = new CustomItemPickaxe(itemIDs + 2, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Pick").setUnlocalizedName(name + "Pick")
+                pickaxe = new CustomItemPickaxe(itemIDs + 2, toolEnum).setTextureName(iconNamePrefix + "Pick").setUnlocalizedName(name + "Pick")
                         .setCreativeTab(tab);
-                shovel = new CustomItemSpade(itemIDs + 3, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Shovel").setUnlocalizedName(name + "Shovel")
+                shovel = new CustomItemSpade(itemIDs + 3, toolEnum).setTextureName(iconNamePrefix + "Shovel").setUnlocalizedName(name + "Shovel")
                         .setCreativeTab(tab);
-                axe = new CustomItemAxe(itemIDs + 4, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Axe").setUnlocalizedName(name + "Axe").setCreativeTab(tab);
-                hoe = new CustomItemHoe(itemIDs + 5, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Hoe").setUnlocalizedName(name + "Hoe").setCreativeTab(tab);
-                sword = (ItemMetallurgySword) new ItemMetallurgySword(itemIDs + 6, toolEnum).setTextureName("Metallurgy:" + setName + "/" + name + "Sword")
+                axe = new CustomItemAxe(itemIDs + 4, toolEnum).setTextureName(iconNamePrefix + "Axe").setUnlocalizedName(name + "Axe").setCreativeTab(tab);
+                hoe = new CustomItemHoe(itemIDs + 5, toolEnum).setTextureName(iconNamePrefix + "Hoe").setUnlocalizedName(name + "Hoe").setCreativeTab(tab);
+                sword = (ItemMetallurgySword) new ItemMetallurgySword(itemIDs + 6, toolEnum).setTextureName(iconNamePrefix + "Sword")
                         .setUnlocalizedName(name + "Sword").setCreativeTab(tab);
 
                 final EnumArmorMaterial armorEnum = EnumHelper.addArmorMaterial(name, armorDura, new int[]
@@ -477,14 +486,14 @@ public class OreInfo implements IOreInfo, IWorldGenerator
                 armorEnum.customCraftingMaterial = ingot;
                 String armorTexture = name;
                 armorTexture = armorTexture.replaceAll("\\s", "").toLowerCase();
-                helmet = new ItemMetallurgyArmor(itemIDs + 7, armorEnum, 0, 0).setTextureFile(armorTexture + "_1").setTextureName("Metallurgy:" + setName + "/" + name + "Helmet")
-                        .setUnlocalizedName("Metallurgy:" + setName + "/" + name + "Helmet").setCreativeTab(tab);
-                chest = new ItemMetallurgyArmor(itemIDs + 8, armorEnum, 1, 1).setTextureFile(armorTexture + "_1").setTextureName("Metallurgy:" + setName + "/" + name + "Chest")
-                        .setUnlocalizedName("Metallurgy:" + setName + "/" + name + "Chest").setCreativeTab(tab);
-                legs = new ItemMetallurgyArmor(itemIDs + 9, armorEnum, 2, 2).setTextureFile(armorTexture + "_2").setTextureName("Metallurgy:" + setName + "/" + name + "Legs")
-                        .setUnlocalizedName("Metallurgy:" + setName + "/" + name + "Legs").setCreativeTab(tab);
-                boots = new ItemMetallurgyArmor(itemIDs + 10, armorEnum, 3, 3).setTextureFile(armorTexture + "_1").setTextureName("Metallurgy:" + setName + "/" + name + "Boots")
-                        .setUnlocalizedName("Metallurgy:" + setName + "/" + name + "Boots").setCreativeTab(tab);
+                helmet = new ItemMetallurgyArmor(itemIDs + 7, armorEnum, 0, 0).setTextureFile(armorTexture + "_1").setTextureName(iconNamePrefix + "Helmet")
+                        .setUnlocalizedName(iconNamePrefix + "Helmet").setCreativeTab(tab);
+                chest = new ItemMetallurgyArmor(itemIDs + 8, armorEnum, 1, 1).setTextureFile(armorTexture + "_1").setTextureName(iconNamePrefix + "Chest")
+                        .setUnlocalizedName(iconNamePrefix + "Chest").setCreativeTab(tab);
+                legs = new ItemMetallurgyArmor(itemIDs + 9, armorEnum, 2, 2).setTextureFile(armorTexture + "_2").setTextureName(iconNamePrefix + "Legs")
+                        .setUnlocalizedName(iconNamePrefix + "Legs").setCreativeTab(tab);
+                boots = new ItemMetallurgyArmor(itemIDs + 10, armorEnum, 3, 3).setTextureFile(armorTexture + "_1").setTextureName(iconNamePrefix + "Boots")
+                        .setUnlocalizedName(iconNamePrefix + "Boots").setCreativeTab(tab);
             }
         }
 
@@ -494,7 +503,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         }
     }
 
-    public void initConfig(Configuration config)
+    void initConfig(Configuration config)
     {
         enabled = config.get("!Enable.Enable Metals", "Enable " + name, true).getBoolean(true);
 
@@ -582,7 +591,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         return enabled;
     }
 
-    public void load()
+    void load()
     {
         if (!enabled)
         {
@@ -615,7 +624,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         }
     }
 
-    public void registerMetal()
+    private void registerMetal()
     {
         if (!enabled)
         {
@@ -637,7 +646,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         }
     }
 
-    public void registerNames()
+    void registerNames()
     {
         if (type == RESPAWN || !enabled)
         {
@@ -678,7 +687,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         }
     }
 
-    public void setLevels()
+    private void setLevels()
     {
         if (!enabled)
         {
@@ -730,5 +739,70 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             }
         }
         return false;
+    }
+
+    public Item getAxe()
+    {
+        return axe;
+    }
+
+    public Item getBoots()
+    {
+        return boots;
+    }
+
+    public Item getChest()
+    {
+        return chest;
+    }
+
+    public Item getDustItem()
+    {
+        return dust;
+    }
+
+    public Item getHelmet()
+    {
+        return helmet;
+    }
+
+    public Item getHoe()
+    {
+        return hoe;
+    }
+
+    public Item getIngotItem()
+    {
+        return ingot;
+    }
+
+    public Item getLegs()
+    {
+        return legs;
+    }
+
+    public SubBlock getOreItem()
+    {
+        return ore;
+    }
+
+    int getOreMeta()
+    {
+        return oreMeta;
+    }
+
+    public Item getPickaxe()
+    {
+        return pickaxe;
+    }
+
+    public Item getShovel()
+    {
+        return shovel;
+    }
+
+    public ItemMetallurgySword getSword()
+    {
+        return sword;
     }
 }

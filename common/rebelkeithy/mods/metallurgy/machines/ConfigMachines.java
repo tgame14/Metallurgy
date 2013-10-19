@@ -1,10 +1,8 @@
 package rebelkeithy.mods.metallurgy.machines;
 
 import java.io.File;
-import java.io.IOException;
 
 import net.minecraftforge.common.Configuration;
-import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 
 public class ConfigMachines
 {

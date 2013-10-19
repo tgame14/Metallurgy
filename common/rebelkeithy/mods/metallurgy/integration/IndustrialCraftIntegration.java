@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import net.minecraft.item.ItemStack;
 import rebelkeithy.mods.metallurgy.api.IOreInfo;
 import rebelkeithy.mods.metallurgy.api.MetallurgyAPI;
-import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 import cpw.mods.fml.common.Loader;
 
 public class IndustrialCraftIntegration

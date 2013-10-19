@@ -39,7 +39,7 @@ public class MetalSet implements IMetalSet
     {
         for (final IOreInfo oreInfo : metals.values())
         {
-            if (((OreInfo) oreInfo).oreMeta == meta)
+            if (((OreInfo) oreInfo).getOreMeta() == meta)
             {
                 return (OreInfo) oreInfo;
             }
@@ -56,7 +56,7 @@ public class MetalSet implements IMetalSet
         }
         else
         {
-            return new OreInfo();
+            return OreInfo.EMPTY;
         }
     }
 

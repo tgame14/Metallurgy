@@ -389,25 +389,25 @@ public class MetallurgyMachines
         {
             Item ingot;
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Silver").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Silver").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 3);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Platinum").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Platinum").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 27);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Brass").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Brass").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 1);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Electrum").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Electrum").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 13);

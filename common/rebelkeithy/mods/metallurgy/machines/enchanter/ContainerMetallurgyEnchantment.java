@@ -122,12 +122,12 @@ public class ContainerMetallurgyEnchantment extends Container
                     final ItemStack item = tableInventory.getStackInSlot(i);
                     if (item != null && MetallurgyMetals.fantasySet != null)
                     {
-                        if (item.itemID == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").dust.itemID)
+                        if (item.itemID == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").getDustItem().itemID)
                         {
                             catalyst++;
                             tableInventory.setInventorySlotContents(i, null);
                         }
-                        else if (item.itemID == MetallurgyMetals.fantasySet.getOreInfo("Carmot").dust.itemID)
+                        else if (item.itemID == MetallurgyMetals.fantasySet.getOreInfo("Carmot").getDustItem().itemID)
                         {
                             catalyst += 2;
                             tableInventory.setInventorySlotContents(i, null);
