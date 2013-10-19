@@ -10,7 +10,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class NativePluginPreInitEvent extends Event
 {
-    private final boolean debug;
     private final File sourceFile;
     private final File configDir;
     private final String version;
@@ -19,15 +18,13 @@ public class NativePluginPreInitEvent extends Event
     private final MetalInfoDatabase dbMetal;
 
     public NativePluginPreInitEvent(final FMLPreInitializationEvent event,
-            final MetallurgyCore instance, final String version, final MetalInfoDatabase dbMetal,
-            final boolean debug)
+            final MetallurgyCore instance, final String version, final MetalInfoDatabase dbMetal)
     {
         sourceFile = event.getSourceFile();
         configDir = new File(event.getModConfigurationDirectory(), "Metallurgy3");
         this.version = version;
         logger = event.getModLog();
         this.instance = instance;
-        this.debug = debug;
         this.dbMetal = dbMetal;
     }
 
@@ -59,10 +56,5 @@ public class NativePluginPreInitEvent extends Event
     public String getMetallurgyVersion()
     {
         return version;
-    }
-
-    public boolean isDebugMode()
-    {
-        return debug;
     }
 }

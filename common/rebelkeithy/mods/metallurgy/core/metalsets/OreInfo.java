@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -304,25 +305,59 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         {
             return;
         }
+        
+        long worldSeed = world.getSeed();
+        Random fmlRandom = new Random(worldSeed);
+        long xSeed = fmlRandom.nextLong() >> 2 + 1L;
+        long zSeed = fmlRandom.nextLong() >> 2 + 1L;
+        
+        long chunkSeed = (xSeed * chunkX + zSeed * chunkZ + oreID + oreMeta) ^ worldSeed;
+        
+        random.setSeed(chunkSeed);
 
-        //TODO Make this actually work
-//        if (random.nextInt(100) > veinChance)
-//        {
-//            return;
-//        }
-
-        for (int n = 0; n < veinCount; n++)
+        if (random.nextInt(100) > veinChance)
         {
-            final int randPosX = chunkX * 16 + random.nextInt(16);
-            final int randPosY = random.nextInt(maxHeight - minHeight) + minHeight;
-            final int randPosZ = chunkZ * 16 + random.nextInt(16);
-
-            // new WorldGenMinable(oreID, oreMeta, oreCount).generate(world,
-            // random, randPosX, randPosY, randPosZ);
-            new MetallurgyWorldGenMinable(oreID, oreMeta, oreCount, veinDensity, Block.stone.blockID, 0).generate(world, random, randPosX, randPosY, randPosZ);
-            // new WorldGenMinable(oreID, oreMeta, 40).generate(world, random,
-            // randPosX, randPosY, randPosZ);
+            return;
         }
+        
+        chunkX = chunkX << 4;
+        chunkZ = chunkZ << 4;
+
+        WorldGenMinable worldGenMinable = new WorldGenMinable(oreID, oreMeta, oreCount + 1, Block.stone.blockID);
+        
+        if(world.provider.dimensionId == -1)
+        {
+        	worldGenMinable = new WorldGenMinable(oreID, oreMeta, oreCount + 1, Block.netherrack.blockID);
+        }
+        
+        if(world.provider.dimensionId == 1)
+        {
+        	worldGenMinable = new WorldGenMinable(oreID, oreMeta, oreCount + 1, Block.whiteStone.blockID);
+        }
+        
+        
+        for (int i = 0; i < veinCount + 1; i ++)
+        {
+        	final int x = chunkX + random.nextInt(16);
+        	final int y = random.nextInt(maxHeight - minHeight) + minHeight;
+        	final int z = chunkZ + random.nextInt(16);
+        	
+        	worldGenMinable.generate(world, random, x, y, z);
+        }
+        
+        
+//        for (int n = 0; n < veinCount; n++)
+//        {
+//            final int randPosX = chunkX * 16 + random.nextInt(16);
+//            final int randPosY = random.nextInt(maxHeight - minHeight) + minHeight;
+//            final int randPosZ = chunkZ * 16 + random.nextInt(16);
+//
+//            // new WorldGenMinable(oreID, oreMeta, oreCount).generate(world,
+//            // random, randPosX, randPosY, randPosZ);
+//            new MetallurgyWorldGenMinable(oreID, oreMeta, oreCount, veinDensity, Block.stone.blockID, 0).generate(world, random, randPosX, randPosY, randPosZ);
+//            // new WorldGenMinable(oreID, oreMeta, 40).generate(world, random,
+//            // randPosX, randPosY, randPosZ);
+//        }
     }
 
     @Override

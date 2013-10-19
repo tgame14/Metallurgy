@@ -52,6 +52,9 @@ public class MetallurgyMetals
 
     public boolean isRelease = false;
 
+	private int oreFinderID = 5102;
+	private boolean oreFinderEnabled = true;
+
     public static MetalSet baseSet;
     public static MetalSet preciousSet;
     public static MetalSet netherSet;
@@ -338,9 +341,9 @@ public class MetallurgyMetals
         OreDictionary.registerOre("dustIron", dustIron);
         OreDictionary.registerOre("dustGold", dustGold);
 
-        if (event.isDebugMode())
+        if (oreFinderEnabled)
         {
-            debug = new ItemOreFinder(5102).setUnlocalizedName("stick").setCreativeTab(CreativeTabs.tabTools);
+            debug = new ItemOreFinder(oreFinderID).setUnlocalizedName("stick").setCreativeTab(CreativeTabs.tabTools);
         }
 
         if (fantasySet.getOreInfo("Atral Silver").getOreItem() != null)
@@ -464,7 +467,15 @@ public class MetallurgyMetals
         baseConfig = initConfig(configDir, "Base");
         utilityConfig = initConfig(configDir, "Utility");
         fantasyConfig = initConfig(configDir, "Fantasy");
+
+        oreFinderID = baseConfig.get("Debug", "OreFinderID", oreFinderID).getInt(oreFinderID);
+        oreFinderEnabled = baseConfig.get("Debug", "OreFinderEnabled", oreFinderEnabled).getBoolean(oreFinderEnabled);
         
+        if(baseConfig.hasChanged())
+        {
+        	baseConfig.save();
+        }
+
         GameRegistry.registerFuelHandler(new IFuelHandler()
         {
             @Override

@@ -54,8 +54,6 @@ public class MetallurgyCore
 
     public static boolean spawnInAir = false;
 
-    private static boolean DEBUG = true;
-
     private static Configuration config;
     private EventBus PLUGIN_BUS = new EventBus();
     private List<String> csvFiles;
@@ -79,7 +77,7 @@ public class MetallurgyCore
     public void init(FMLInitializationEvent event)
     {
         log.fine("Posting init event to plugins.");
-        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, dbMetal, DEBUG));
+        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, dbMetal));
         PLUGIN_BUS.post(new PluginInitEvent());
 
         for (final MetalSet set : getMetalSetList())
@@ -139,7 +137,7 @@ public class MetallurgyCore
     public void postInit(FMLPostInitializationEvent event)
     {
         log.fine("Posting postInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, dbMetal, DEBUG));
+        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, dbMetal));
         PLUGIN_BUS.post(new PluginPostInitEvent());
         dbMetal = null; // Free memory unless someone else kept a reference
     }
@@ -183,7 +181,7 @@ public class MetallurgyCore
         PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"), log);
 
         log.fine("Posting preInit event to plugins.");
-        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, dbMetal, DEBUG);
+        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, dbMetal);
         configDir = pluginEvent.getMetallurgyConfigDir();
         PLUGIN_BUS.post(pluginEvent);
         PLUGIN_BUS.post(new PluginPreInitEvent(event, MOD_VERSION));

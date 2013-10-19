@@ -10,15 +10,13 @@ public class NativePluginInitEvent extends Event
 {
     private final Logger logger;
     private final File configDir;
-    private final boolean debug;
     private final MetalInfoDatabase dbMetal;
 
     public NativePluginInitEvent(final Logger logger, final File configDir,
-            final MetalInfoDatabase dbMetal, final boolean debug)
+            final MetalInfoDatabase dbMetal)
     {
         this.logger = logger;
         this.configDir = configDir;
-        this.debug = debug;
         this.dbMetal = dbMetal;
     }
 
@@ -35,10 +33,5 @@ public class NativePluginInitEvent extends Event
     public Logger getMetallurgyLog()
     {
         return logger;
-    }
-
-    public boolean isDebugMode()
-    {
-        return debug;
     }
 }
