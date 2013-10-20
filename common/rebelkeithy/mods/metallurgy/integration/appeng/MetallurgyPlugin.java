@@ -1,9 +1,10 @@
 package rebelkeithy.mods.metallurgy.integration.appeng;
 
-import net.minecraft.src.ModLoader;
 import rebelkeithy.mods.metallurgy.api.plugin.IPlugin;
 
 import com.google.common.collect.ImmutableList;
+
+import cpw.mods.fml.common.Loader;
 
 public class MetallurgyPlugin implements IPlugin
 {
@@ -16,7 +17,7 @@ public class MetallurgyPlugin implements IPlugin
     @Override
     public boolean isActive()
     {
-        return ModLoader.isModLoaded("AppliedEnergistics");
+        return Loader.isModLoaded("AppliedEnergistics");
     }
 
     @Override
@@ -24,5 +25,4 @@ public class MetallurgyPlugin implements IPlugin
     {
         return "Native Metallurgy Applied Energistics Support Plugin";
     }
-
 }
