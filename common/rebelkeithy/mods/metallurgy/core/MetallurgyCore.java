@@ -43,7 +43,7 @@ public class MetallurgyCore
     @Instance(value = "Metallurgy3")
     public static MetallurgyCore instance;
     
-    public static EventBus PLUGIN_BUS = new EventBus();
+    private EventBus PLUGIN_BUS = new EventBus();
 
     public static boolean spawnInAir = false;
 
@@ -72,7 +72,7 @@ public class MetallurgyCore
     public void init(FMLInitializationEvent event)
     {
         log.fine("Posting init event to plugins.");
-        PLUGIN_BUS.post(new NativePluginInitEvent());
+        PLUGIN_BUS.post(new NativePluginInitEvent(PLUGIN_BUS));
         PLUGIN_BUS.post(new PluginInitEvent());
 
         for (final MetalSet set : getMetalSetList())
@@ -132,7 +132,7 @@ public class MetallurgyCore
     public void postInit(FMLPostInitializationEvent event)
     {
         log.fine("Posting postInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPostInitEvent());
+        PLUGIN_BUS.post(new NativePluginPostInitEvent(PLUGIN_BUS));
         PLUGIN_BUS.post(new PluginPostInitEvent());
     }
 
@@ -166,7 +166,7 @@ public class MetallurgyCore
         PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"));
         
         log.fine("Posting preInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPreInitEvent(event, instance, MOD_VERSION));
+        PLUGIN_BUS.post(new NativePluginPreInitEvent(event, instance, PLUGIN_BUS, MOD_VERSION));
         PLUGIN_BUS.post(new PluginPreInitEvent(event, MOD_VERSION));
     }
 }
