@@ -29,7 +29,6 @@ import rebelkeithy.mods.metallurgy.integration.ComputerCraftIntegration;
 import rebelkeithy.mods.metallurgy.integration.IndustrialCraftIntegration;
 import rebelkeithy.mods.metallurgy.integration.RailcraftIntegration;
 import rebelkeithy.mods.metallurgy.integration.ThaumcraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.TreeCapitatorIntegration;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemFertilizer;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemIgniter;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockLargeTNT;
@@ -404,8 +403,6 @@ public class MetallurgyMetals
         addSwordEffects();
 
         proxy.registerParticles();
-
-        TreeCapitatorIntegration.init();
     }
 
     public Configuration initConfig(File dirPath, String name)
