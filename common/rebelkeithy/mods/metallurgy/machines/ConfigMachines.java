@@ -1,10 +1,8 @@
 package rebelkeithy.mods.metallurgy.machines;
 
 import java.io.File;
-import java.io.IOException;
 
 import net.minecraftforge.common.Configuration;
-import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 
 public class ConfigMachines
 {
@@ -72,20 +70,9 @@ public class ConfigMachines
     public static int orbID = 29018;
 	public static int sawDustID = 29019;
 
-    public static void initConfig()
+    public static void initConfig(File configDir)
     {
-        final File fileDir = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3");
-        fileDir.mkdir();
-        final File cfgFile = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3/MetallurgyMachines.cfg");
-
-        try
-        {
-            cfgFile.createNewFile();
-        } catch (final IOException e)
-        {
-        	 MetallurgyCore.log.info(e.getLocalizedMessage());
-        }
-
+        final File cfgFile = new File(configDir, "MetallurgyMachines.cfg");
         final Configuration config = new Configuration(cfgFile);
 
         crusherEnabled = config.get("Machines", "CrusherEnabled", crusherEnabled).getBoolean(crusherEnabled);

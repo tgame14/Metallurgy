@@ -7,21 +7,20 @@ import net.minecraft.item.ItemStack;
 
 public class ItemMetallurgyArmor extends ItemArmor
 {
+    private String textureFile;
 
-    public String textureFile;
-
-    public ItemMetallurgyArmor(int par1, EnumArmorMaterial par2EnumArmorMaterial, int par3, int par4)
+    ItemMetallurgyArmor(int par1, EnumArmorMaterial par2EnumArmorMaterial, int par3, int par4)
     {
         super(par1, par2EnumArmorMaterial, par3, par4);
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer)
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
     {
         return "metallurgy:armor/" + textureFile + ".png";
     }
 
-    public ItemMetallurgyArmor setTextureFile(String texture)
+    ItemMetallurgyArmor setTextureFile(String texture)
     {
         textureFile = texture;
         return this;
@@ -33,5 +32,4 @@ public class ItemMetallurgyArmor extends ItemArmor
         super.setTextureName(par1Str);
         return this;
     }
-
 }

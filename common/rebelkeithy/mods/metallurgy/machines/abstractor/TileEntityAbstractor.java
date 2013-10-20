@@ -35,15 +35,15 @@ public class TileEntityAbstractor extends TileEntityMachineBase implements ISide
             final int var1 = par0ItemStack.getItem().itemID;
             par0ItemStack.getItem();
 
-            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Prometheum").dust.itemID)
+            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Prometheum").getDustItem().itemID)
             {
                 return 1200;
             }
-            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").dust.itemID)
+            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").getDustItem().itemID)
             {
                 return 3600;
             }
-            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Carmot").dust.itemID)
+            if (var1 == MetallurgyMetals.fantasySet.getOreInfo("Carmot").getDustItem().itemID)
             {
                 return 7200;
             }

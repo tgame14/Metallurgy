@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
 import rebelkeithy.mods.metallurgy.api.ICrusherRecipeManager;
 import rebelkeithy.mods.metallurgy.api.plugin.event.AddCrusherRecipesEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
 
 public class CrusherRecipeHandler
 {
@@ -37,7 +37,7 @@ public class CrusherRecipeHandler
     }
 
     @ForgeSubscribe
-    public void preInit(final NativePluginPreInitEvent event)
+    public void preInit(final NativePluginStartupEvent.Pre event)
     {
         logger = event.getMetallurgyLog();
     }

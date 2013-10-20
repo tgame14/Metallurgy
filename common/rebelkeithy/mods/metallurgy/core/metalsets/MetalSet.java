@@ -1,7 +1,6 @@
 package rebelkeithy.mods.metallurgy.core.metalsets;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 import rebelkeithy.mods.metallurgy.api.IMetalSet;
 import rebelkeithy.mods.metallurgy.api.IOreInfo;
+import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 
 public class MetalSet implements IMetalSet
@@ -17,7 +17,7 @@ public class MetalSet implements IMetalSet
     private final Map<String, IOreInfo> metals;
     private Configuration config;
 
-    public MetalSet(String setName, Map<String, Map<String, String>> baseData, CreativeTabs tab)
+    public MetalSet(String setName, Map<String, Map<String, String>> baseData, CreativeTabs tab, final MetalInfoDatabase dbMetal, File configDir)
     {
         this.setName = setName;
 
@@ -25,12 +25,12 @@ public class MetalSet implements IMetalSet
 
         for (final Map<String, String> metalInfo : baseData.values())
         {
-            metals.put(metalInfo.get("Name"), new OreInfo(metalInfo, tab));
+            metals.put(metalInfo.get("Name"), new OreInfo(metalInfo, tab, dbMetal));
         }
 
         MetallurgyCore.getMetalSetList().add(this);
 
-        initConfig();
+        initConfig(configDir);
         init();
     }
 
@@ -39,7 +39,7 @@ public class MetalSet implements IMetalSet
     {
         for (final IOreInfo oreInfo : metals.values())
         {
-            if (((OreInfo) oreInfo).oreMeta == meta)
+            if (((OreInfo) oreInfo).getOreMeta() == meta)
             {
                 return (OreInfo) oreInfo;
             }
@@ -56,7 +56,7 @@ public class MetalSet implements IMetalSet
         }
         else
         {
-            return new OreInfo();
+            return OreInfo.EMPTY;
         }
     }
 
@@ -74,30 +74,18 @@ public class MetalSet implements IMetalSet
         }
     }
 
-    public void initConfig()
+    public void initConfig(File configDir)
     {
-        final File fileDir = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3");
-        fileDir.mkdir();
-        final File cfgFile = new File(MetallurgyCore.proxy.getMinecraftDir() + "/config/Metallurgy3/Metallurgy" + setName + ".cfg");
-
-        try
-        {
-            cfgFile.createNewFile();
-        } catch (final IOException e)
-        {
-            MetallurgyCore.log.warning("[Metallurgy3] Could not create configuration file for Metallurgy 3 metal set " + setName + ". Reason:");
-            MetallurgyCore.log.warning(e.getLocalizedMessage());
-        }
-
+        final File cfgFile = new File(configDir, "Metallurgy" + setName + ".cfg");
         config = new Configuration(cfgFile);
-        config.load();
 
         for (final IOreInfo oreInfo : metals.values())
         {
             ((OreInfo) oreInfo).initConfig(config);
         }
 
-        config.save();
+        if (config.hasChanged())
+            config.save();
     }
 
     public void load()

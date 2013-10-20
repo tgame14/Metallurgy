@@ -12,9 +12,7 @@ import rebelkeithy.mods.metallurgy.api.plugin.event.AddCrusherRecipesEvent;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 import rebelkeithy.mods.metallurgy.core.MetallurgyTabs;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
 import rebelkeithy.mods.metallurgy.machines.abstractor.AbstractorRecipes;
 import rebelkeithy.mods.metallurgy.machines.abstractor.BlockAbstractor;
 import rebelkeithy.mods.metallurgy.machines.abstractor.BlockAbstractorItem;
@@ -204,13 +202,13 @@ public class MetallurgyMachines
     }
 
     @ForgeSubscribe
-    public void postInit(NativePluginPostInitEvent event)
+    public void postInit(NativePluginStartupEvent.Post event)
     {
         event.getMetallurgyBus().post(new AddCrusherRecipesEvent(CrusherRecipes.INSTANCE));
     }
     
     @ForgeSubscribe
-    public void Init(NativePluginInitEvent event)
+    public void Init(NativePluginStartupEvent.Init event)
     {
         loadCrusher();
         if(ConfigMachines.crusherEnabled){
@@ -392,25 +390,25 @@ public class MetallurgyMachines
         {
             Item ingot;
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Silver").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Silver").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 3);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Platinum").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Platinum").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 27);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Brass").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Brass").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 1);
             }
 
-            ingot = MetallurgyMetals.preciousSet.getOreInfo("Electrum").ingot;
+            ingot = MetallurgyMetals.preciousSet.getOreInfo("Electrum").getIngotItem();
             if (ingot != null)
             {
                 MintRecipes.minting().addMinting(ingot.itemID, 0, 13);
@@ -450,14 +448,14 @@ public class MetallurgyMachines
     }
 
     @ForgeSubscribe
-    public void preInit(NativePluginPreInitEvent event)
+    public void preInit(NativePluginStartupEvent.Pre event)
     {
         instance = event.getMetallurgyInstance();
         
         machineTab = new MetallurgyTabs("Metallurgy: Machines");
         // initStorage();
 
-        ConfigMachines.initConfig();
+        ConfigMachines.initConfig(event.getMetallurgyConfigDir());
 
         if(ConfigMachines.crusherEnabled)
         {

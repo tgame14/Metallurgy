@@ -157,11 +157,11 @@ public class GuiMetallurgyEnchantment extends GuiContainer
                 if (containerEnchantment.tableInventory.getStackInSlot(i) != null && MetallurgyMetals.fantasySet != null)
                 {
                     // this.mc.renderEngine.func_98187_b("/mods/metallurgy/textures/guis/enchant.png");
-                    if (containerEnchantment.tableInventory.getStackInSlot(i).itemID == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").dust.itemID)
+                    if (containerEnchantment.tableInventory.getStackInSlot(i).itemID == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").getDustItem().itemID)
                     {
                         drawTexturedModalRect(k + offsetArrayX[i - 1], l + offsetArrayY[i - 1], 163, 167, 16, 16);
                     }
-                    else if (containerEnchantment.tableInventory.getStackInSlot(i).itemID == MetallurgyMetals.fantasySet.getOreInfo("Carmot").dust.itemID)
+                    else if (containerEnchantment.tableInventory.getStackInSlot(i).itemID == MetallurgyMetals.fantasySet.getOreInfo("Carmot").getDustItem().itemID)
                     {
                         drawTexturedModalRect(k + 69 + 18 * (i - 1), l + 46, 126, 166, 18, 18);
                     }
