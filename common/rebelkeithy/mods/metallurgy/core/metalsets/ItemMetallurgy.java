@@ -19,7 +19,7 @@ public class ItemMetallurgy extends Item
         return xp; // -1 will default to the old lookups.
     }
 
-    public ItemMetallurgy setSmeltinExperience(float xp)
+    ItemMetallurgy setSmeltinExperience(float xp)
     {
         this.xp = xp;
         return this;

@@ -20,9 +20,9 @@ public class TreeCapitatorIntegration
             {
                 for (final IOreInfo oi : ms.getOreList().values())
                 {
-                    if (oi.isEnabled() && ((OreInfo) oi).axe != null)
+                    if (oi.isEnabled() && ((OreInfo) oi).getAxe() != null)
                     {
-                        axeList += "; " + ((OreInfo) oi).axe.itemID;
+                        axeList += "; " + ((OreInfo) oi).getAxe().itemID;
                     }
                 }
             }

@@ -49,19 +49,19 @@ public class TileEntityMint extends TileEntity
 
     public String getIngotImage()
     {
-        if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Silver").ingot.itemID)
+        if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Silver").getIngotItem().itemID)
         {
             return "metallurgy:textures/blocks/machines/mint/MintSilver.png";
         }
-        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Brass").ingot.itemID)
+        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Brass").getIngotItem().itemID)
         {
             return "metallurgy:textures/blocks/machines/mint/MintBrass.png";
         }
-        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Electrum").ingot.itemID)
+        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Electrum").getIngotItem().itemID)
         {
             return "metallurgy:textures/blocks/machines/mint/MintElectrum.png";
         }
-        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Platinum").ingot.itemID)
+        else if (ingotId == MetallurgyMetals.preciousSet.getOreInfo("Platinum").getIngotItem().itemID)
         {
             return "metallurgy:textures/blocks/machines/mint/MintPlatinum.png";
         }

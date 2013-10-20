@@ -75,52 +75,52 @@ public class MetallurgyTradeHandler implements IVillageTradeHandler {
 			// Bars
 			recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(Item.ingotIron, 1), new ItemStack(MetallurgyMachines.coin, 3, 1)));
 			if (MetallurgyMetals.baseSet.getOreInfo("Tin").isEnabled()) {
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Tin").ingot, 5), new ItemStack(MetallurgyMachines.coin, 6)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Tin").getIngotItem(), 5), new ItemStack(MetallurgyMachines.coin, 6)));
 			}
 			if (MetallurgyMetals.baseSet.getOreInfo("Manganese").isEnabled()) {
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Manganese").ingot, 5), new ItemStack(MetallurgyMachines.stack, 3, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Manganese").getIngotItem(), 5), new ItemStack(MetallurgyMachines.stack, 3, 1)));
 			}
 
 			if (MetallurgyMetals.baseSet.getOreInfo("Copper").isEnabled()) {
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").ingot, 5), new ItemStack(MetallurgyMachines.coin, 6)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 3), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").helmet, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 10), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").chest, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 6), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").legs, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 3), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").boots, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getIngotItem(), 5), new ItemStack(MetallurgyMachines.coin, 6)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 3), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getHelmet(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 10), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getChest(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 6), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getLegs(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 3), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getBoots(), 1)));
 
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").sword, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 5), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").pickaxe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").axe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 2), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").shovel, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 2), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").hoe, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getSword(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 5), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getPickaxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getAxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 2), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getShovel(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 2), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Copper").getHoe(), 1)));
 			}
 			if (MetallurgyMetals.baseSet.getOreInfo("Bronze").isEnabled()) {
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").ingot, 5), new ItemStack(MetallurgyMachines.coin, 12)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getIngotItem(), 5), new ItemStack(MetallurgyMachines.coin, 12)));
 				// Bronze
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").helmet, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 12), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").chest, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 8), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").legs, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").boots, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getHelmet(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 12), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getChest(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 8), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getLegs(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getBoots(), 1)));
 
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 9), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").sword, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").pickaxe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 6), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").axe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").shovel, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").hoe, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 9), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getSword(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getPickaxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 6), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getAxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getShovel(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 4), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Bronze").getHoe(), 1)));
 			}
 			if (MetallurgyMetals.baseSet.getOreInfo("Steel").isEnabled()) {
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").ingot, 5), new ItemStack(MetallurgyMachines.stack, 6, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getIngotItem(), 5), new ItemStack(MetallurgyMachines.stack, 6, 1)));
 				// Steel
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").helmet, 1, 4)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 15), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").chest, 1, 4)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 11), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").legs, 1, 4)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").boots, 1, 4)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getHelmet(), 1, 4)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 15), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getChest(), 1, 4)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 11), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getLegs(), 1, 4)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getBoots(), 1, 4)));
 
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 12), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").sword, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 10), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").pickaxe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 9), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").axe, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").shovel, 1)));
-				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").hoe, 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 12), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getSword(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 10), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getPickaxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 9), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getAxe(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getShovel(), 1)));
+				recipeList.addToListWithCheck(new MerchantRecipe(new ItemStack(MetallurgyMachines.stack, 7), new ItemStack(MetallurgyMetals.baseSet.getOreInfo("Steel").getHoe(), 1)));
 			}
 		}
 		if (villager.getProfession() == 4) // Butcher

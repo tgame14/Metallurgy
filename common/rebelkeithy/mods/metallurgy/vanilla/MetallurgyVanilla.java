@@ -2,6 +2,9 @@ package rebelkeithy.mods.metallurgy.vanilla;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -9,7 +12,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import rebelkeithy.mods.keithyutils.reflection.Reflector;
-import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
@@ -34,16 +36,18 @@ public class MetallurgyVanilla
     public void preInit(NativePluginPreInitEvent event)
     {
 
-        final Map<String, Map<String, String>> vanillaList = MetalInfoDatabase.getSpreadsheetDataForSet("Vanilla");
-        vanillaList.remove("Wood/Leather");
-        vanillaList.remove("Stone/Chainmail");
-        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock);
+        final Map<String, Map<String, String>> vanillaList = Maps.newHashMap();
+        for (Entry<String, Map<String, String>> entry: event.getMetalDatabase().getDataForSet("Vanilla").entrySet())
+            if (!entry.getKey().equals("Wood/Leather") && !entry.getKey().equals("Stone/Chainmail"))
+                vanillaList.put(entry.getKey(), entry.getValue());
+        final File configDir = event.getMetallurgyConfigDir();
+        vanillaSet = new MetalSet("Vanilla", vanillaList, CreativeTabs.tabBlock, event.getMetalDatabase(), configDir);
 
-        VanillaAddons.init();
+        VanillaAddons.init(configDir);
 
-        vanillaSet.initConfig();
+        vanillaSet.initConfig(configDir);
 
-        final File cfgFile = new File(event.getMetallurgyConfigDir(), "MetallurgyVanilla.cfg");
+        final File cfgFile = new File(configDir, "MetallurgyVanilla.cfg");
         final Configuration config = new Configuration(cfgFile);
 
         if (config.get("!enable", "Enable Texture Overrides", true).getBoolean(true))
