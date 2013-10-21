@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import net.minecraftforge.event.Event;
-import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
+import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 
 public class NativePluginPostInitEvent extends Event
 {

@@ -16,6 +16,7 @@ import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
 import rebelkeithy.mods.metallurgy.api.plugin.event.PluginInitEvent;
 import rebelkeithy.mods.metallurgy.api.plugin.event.PluginPostInitEvent;
 import rebelkeithy.mods.metallurgy.api.plugin.event.PluginPreInitEvent;
+import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
 import rebelkeithy.mods.metallurgy.core.plugin.PluginLoader;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
@@ -85,7 +86,6 @@ public class MetallurgyCore
             set.load();
             proxy.registerNamesForMetalSet(set);
         }
-        dbMetal.registerItemsWithOreDict();
     }
 
     private void initConfig()
