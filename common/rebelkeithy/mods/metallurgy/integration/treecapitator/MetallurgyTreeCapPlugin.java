@@ -29,16 +29,18 @@ public class MetallurgyTreeCapPlugin implements IPlugin
 
         for (final MetalSet metalSets : MetallurgyCore.getMetalSetList())
             for (final IOreInfo metalSet : metalSets.getOreList().values())
-            {
-                final Item axe = metalSet.getAxe();
-                if (metalSet.isEnabled() && axe != null)
-                    if (axeList == null) axeList = new StringBuilder(String.valueOf(axe.itemID));
-                    else
-                    {
-                        axeList.append("; ");
-                        axeList.append(axe.itemID);
-                    }
-            }
+                if (metalSet.isEnabled())
+                {
+                    final Item axe = metalSet.getAxe();
+                    if (metalSet.isEnabled() && axe != null)
+                        if (axeList == null) axeList =
+                                new StringBuilder(String.valueOf(axe.itemID));
+                        else
+                        {
+                            axeList.append("; ");
+                            axeList.append(axe.itemID);
+                        }
+                }
 
         if (axeList != null && axeList.length() > 0)
         {
