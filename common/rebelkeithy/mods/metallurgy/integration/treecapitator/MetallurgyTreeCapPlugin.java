@@ -32,7 +32,7 @@ public class MetallurgyTreeCapPlugin implements IPlugin
                 if (metalSet.isEnabled())
                 {
                     final Item axe = metalSet.getAxe();
-                    if (metalSet.isEnabled() && axe != null)
+                    if (axe != null)
                         if (axeList == null) axeList =
                                 new StringBuilder(String.valueOf(axe.itemID));
                         else

@@ -39,4 +39,10 @@ public interface IOreInfo
     public boolean isEnabled();
     
     public Item getAxe();
+
+    public Item getPickaxe();
+
+    public Item getShovel();
+
+    public Item getSword();
 }

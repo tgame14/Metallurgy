@@ -25,8 +25,6 @@ import rebelkeithy.mods.metallurgy.core.metalsets.ISwordHitListener;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
 import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
-import rebelkeithy.mods.metallurgy.integration.ComputerCraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.IndustrialCraftIntegration;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemFertilizer;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemIgniter;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockLargeTNT;
@@ -448,8 +446,6 @@ public class MetallurgyMetals
 
         final Logger log = event.getMetallurgyLog();
         createMidasiumRecipes(log);
-        IndustrialCraftIntegration.init(log);
-        ComputerCraftIntegration.init(log);
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
