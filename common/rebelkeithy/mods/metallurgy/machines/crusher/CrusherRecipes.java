@@ -3,22 +3,24 @@ package rebelkeithy.mods.metallurgy.machines.crusher;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import rebelkeithy.mods.metallurgy.api.ICrusherRecipeManager;
 import rebelkeithy.mods.metallurgy.machines.MetallurgyMachines;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 
-public class CrusherRecipes
+public enum CrusherRecipes implements ICrusherRecipeManager
 {
-    private static final CrusherRecipes smeltingBase = new CrusherRecipes();
+    INSTANCE; // *THE* singleton instance
 
     /** The list of smelting results. */
-    private static Map<Integer, ItemStack> smeltingList = Maps.newHashMap();
-    private static Table<Integer, Integer, ItemStack> metaSmeltingList = HashBasedTable.create();
+    private Map<Integer, ItemStack> smeltingList = Maps.newHashMap();
+    private Table<Integer, Integer, ItemStack> metaSmeltingList = HashBasedTable.create();
 
     /**
      * Add a metadata-sensitive furnace recipe
@@ -30,21 +32,9 @@ public class CrusherRecipes
      * @param itemstack
      *            The ItemStack for the result
      */
-    public static void addCrushing(int itemID, int metadata, ItemStack itemstack)
+    public void addCrushing(int itemID, int metadata, ItemStack itemstack)
     {
         metaSmeltingList.put(itemID, metadata, itemstack);
-    }
-
-    /**
-     * Used to call methods addSmelting and getSmeltingResult.
-     */
-    public static final CrusherRecipes smelting()
-    {
-        return smeltingBase;
-    }
-
-    private CrusherRecipes()
-    {
     }
 
     /**
@@ -153,5 +143,17 @@ public class CrusherRecipes
         }
 
         return null;
+    }
+
+    @Override
+    public void addCrushing(Block block, ItemStack result)
+    {
+        addCrushing(block.blockID, result);
+    }
+
+    @Override
+    public void addCrushing(ItemStack item, ItemStack result)
+    {
+        addCrushing(item.itemID, item.getItemDamage(), result);
     }
 }

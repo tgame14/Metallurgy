@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Maps;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
@@ -13,8 +11,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import rebelkeithy.mods.keithyutils.reflection.Reflector;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
+
+import com.google.common.collect.Maps;
+
 import cpw.mods.fml.common.SidedProxy;
 
 public class MetallurgyVanilla
@@ -25,7 +25,7 @@ public class MetallurgyVanilla
     public static MetalSet vanillaSet;
 
     @ForgeSubscribe
-    public void Init(NativePluginInitEvent event)
+    public void Init(NativePluginStartupEvent.Init event)
     {
         vanillaSet.init();
         VanillaAddons.load();
@@ -33,7 +33,7 @@ public class MetallurgyVanilla
     }
 
     @ForgeSubscribe
-    public void preInit(NativePluginPreInitEvent event)
+    public void preInit(NativePluginStartupEvent.Pre event)
     {
 
         final Map<String, Map<String, String>> vanillaList = Maps.newHashMap();

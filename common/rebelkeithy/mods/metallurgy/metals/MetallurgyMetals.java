@@ -6,9 +6,6 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -27,20 +24,17 @@ import rebelkeithy.mods.metallurgy.core.MetallurgyTabs;
 import rebelkeithy.mods.metallurgy.core.metalsets.ISwordHitListener;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
-import rebelkeithy.mods.metallurgy.integration.ComputerCraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.IndustrialCraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.RailcraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.ThaumcraftIntegration;
-import rebelkeithy.mods.metallurgy.integration.TreeCapitatorIntegration;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemFertilizer;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.ItemIgniter;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockLargeTNT;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.BlockMinersTNT;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityLargeTNTPrimed;
 import rebelkeithy.mods.metallurgy.metals.utilityItems.tnt.EntityMinersTNTPrimed;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -330,7 +324,7 @@ public class MetallurgyMetals
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
-    public void Init(NativePluginInitEvent event)
+    public void Init(NativePluginStartupEvent.Init event)
     {
         // TODO add config for vanilla dusts
         FurnaceRecipes.smelting().addSmelting(dustIron.itemID, 0, new ItemStack(Item.ingotIron), 0.7F);
@@ -405,8 +399,6 @@ public class MetallurgyMetals
         addSwordEffects();
 
         proxy.registerParticles();
-
-        TreeCapitatorIntegration.init();
     }
 
     public Configuration initConfig(File dirPath, String name)
@@ -428,7 +420,7 @@ public class MetallurgyMetals
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
-    public void postInit(NativePluginPostInitEvent event)
+    public void postInit(NativePluginStartupEvent.Post event)
     {
         final File configDir = event.getMetallurgyConfigDir();
         if (isSetEnabled("Base", configDir) && baseSet.getOreInfo("Steel").getHelmet() != null)
@@ -454,14 +446,10 @@ public class MetallurgyMetals
 
         final Logger log = event.getMetallurgyLog();
         createMidasiumRecipes(log);
-        ThaumcraftIntegration.init();
-        IndustrialCraftIntegration.init(log);
-        RailcraftIntegration.init(log);
-        ComputerCraftIntegration.init(log);
     }
 
     @ForgeSubscribe(priority = EventPriority.HIGHEST)
-    public void preInit(NativePluginPreInitEvent event)
+    public void preInit(NativePluginStartupEvent.Pre event)
     {
         final File configDir = event.getMetallurgyConfigDir();
         baseConfig = initConfig(configDir, "Base");
