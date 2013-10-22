@@ -1,6 +1,10 @@
 package rebelkeithy.mods.metallurgy.metals;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,124 +14,142 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import rebelkeithy.mods.metallurgy.core.metalsets.ISwordHitListener;
+import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
+
+import com.google.common.collect.Maps;
 
 public class FantasySwordHitListener implements ISwordHitListener
 {
-    private static int speed = 1;
-    private static int haste = 3;
-    private static int strength = 5;
-    private static int resistance = 11;
-    private static int fireResist = 12;
-    private static int blindness = 15;
-    private static int wither = 20;
+    private class Effect
+    {
+        int potionID;
+        int amplifier;
+        boolean ignite;
+
+        Effect(final int potionID, final int amplifier, final boolean ignite)
+        {
+            this.potionID = potionID;
+            this.amplifier = amplifier;
+            this.ignite = ignite;
+        }
+    }
+
+    private final Logger logger;
+    private final Map<Integer, Effect> effects = Maps.newHashMap();
+    private final Map<Integer, Integer> deathEffects = Maps.newHashMap();
+    private Method dropFewItems = null;
+
+    FantasySwordHitListener(final Logger logger, final MetalSet fantasySet)
+    {
+        this.logger = logger;
+
+        final int speed = 1;
+        final int haste = 3;
+        final int strength = 5;
+        final int resistance = 11;
+        final int fireResist = 12;
+        final int blindness = 15;
+        final int wither = 20;
+
+        setEffect(fantasySet, "Deep Iron", blindness, 0, false);
+        setEffect(fantasySet, "Black Steel", blindness, 1, false);
+        setEffect(fantasySet, "Oureclase", resistance, 0, false);
+        setEffect(fantasySet, "Mithril", haste, 0, false);
+        setEffect(fantasySet, "Quicksilver", speed, 0, false);
+        setEffect(fantasySet, "Haderoth", haste, 0, true);
+        setEffect(fantasySet, "Orichalcum", resistance, 1, false);
+        setEffect(fantasySet, "Celenegil", resistance, 3, false);
+        setEffect(fantasySet, "Adamantine", fireResist, 0, true);
+        setEffect(fantasySet, "Atlarus", strength, 1, false);
+        setEffect(fantasySet, "Tartarite", wither, 1, true);
+
+        setDeathEffect(fantasySet, "Astral Silver", 1);
+        setDeathEffect(fantasySet, "Carmot", 2);
+
+        try
+        {
+            dropFewItems =
+                    EntityLiving.class
+                            .getDeclaredMethod("func_70628_a", Boolean.TYPE, Integer.TYPE);
+        }
+        catch (final NoSuchMethodException e)
+        {
+            logger.info("FantasySwordHitListener: Could not find obfuscated version of dropFewItems. Using deobfuscated version.");
+            try
+            {
+                dropFewItems =
+                        EntityLiving.class.getDeclaredMethod("dropFewItems", Boolean.TYPE,
+                                Integer.TYPE);
+            }
+            catch (NoSuchMethodException | SecurityException e1)
+            {
+                logger.info("FantasySwordHitListener: Could not find deobfuscated version of dropFewItems.");
+            }
+        }
+        catch (final SecurityException e)
+        {}
+
+        if (dropFewItems != null) dropFewItems.setAccessible(true);
+    }
 
     @Override
-    public boolean hitEntity(ItemStack itemstack, EntityLivingBase entityliving, EntityLivingBase player)
+    public boolean hitEntity(final ItemStack itemstack, final EntityLivingBase entityliving,
+            final EntityLivingBase player)
     {
-
-        if (Math.random() < 0.7)
+        if (Math.random() >= 0.7)
         {
-            return false;
+            final Effect effect = effects.get(itemstack.getItem().itemID);
+            if (effect != null)
+            {
+                entityliving
+                        .addPotionEffect(new PotionEffect(effect.potionID, 80, effect.amplifier));
+                if (effect.ignite) entityliving.setFire(4);
+            }
         }
-
-        if (MetallurgyMetals.fantasySet.getOreInfo("Deep Iron").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Deep Iron").getSword().itemID)
-        {
-            entityliving.addPotionEffect(new PotionEffect(blindness, 80, 0));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Black Steel").isEnabled()
-                && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Black Steel").getSword().itemID)
-        {
-            entityliving.addPotionEffect(new PotionEffect(blindness, 80, 1));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Oureclase").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Oureclase").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(resistance, 80, 0));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Mithril").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Mithril").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(haste, 80, 0));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Quicksilver").isEnabled()
-                && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Quicksilver").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(speed, 80, 0));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Haderoth").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Haderoth").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(haste, 80, 0));
-            entityliving.setFire(4);
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Orichalcum").isEnabled()
-                && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Orichalcum").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(resistance, 80, 1));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Celenegil").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Celenegil").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(resistance, 80, 3));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Adamantine").isEnabled()
-                && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Adamantine").getSword().itemID)
-        {
-            player.addPotionEffect(new PotionEffect(fireResist, 80, 0));
-            entityliving.setFire(4);
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Atlarus").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Atlarus").getSword().itemID)
-        {
-            entityliving.addPotionEffect(new PotionEffect(strength, 80, 1));
-        }
-        else if (MetallurgyMetals.fantasySet.getOreInfo("Tartarite").isEnabled() && itemstack.getItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Tartarite").getSword().itemID)
-        {
-            entityliving.addPotionEffect(new PotionEffect(wither, 80, 1));
-            entityliving.setFire(4);
-        }
-
         return false;
     }
 
     @ForgeSubscribe
-    public void onDeathEvent(LivingDeathEvent event)
+    public void onDeathEvent(final LivingDeathEvent event)
     {
+        if (dropFewItems == null) return;
+
         if (event.source.getEntity() instanceof EntityPlayer)
         {
             final EntityPlayer player = (EntityPlayer) event.source.getEntity();
-            if (player.getCurrentEquippedItem() == null)
-            {
-                return;
-            }
+            if (player.getCurrentEquippedItem() == null) return;
 
-            int effect = 0;
-            if (MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").isEnabled()
-                    && player.getCurrentEquippedItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Astral Silver").getSword().itemID)
-            {
-                effect = 1;
-            }
-            if (MetallurgyMetals.fantasySet.getOreInfo("Carmot").isEnabled()
-                    && player.getCurrentEquippedItem().itemID == MetallurgyMetals.fantasySet.getOreInfo("Carmot").getSword().itemID)
-            {
-                effect = 2;
-            }
-
-            if (effect > 0)
-            {
+            final Integer effect = deathEffects.get(player.getCurrentEquippedItem().itemID);
+            if (effect != null && effect > 0)
                 try
                 {
-                    final Method m = EntityLiving.class.getDeclaredMethod("dropFewItems", Boolean.TYPE, Integer.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(event.entityLiving, true, 0);
+                    dropFewItems.invoke(event.entityLiving, true, 0);
                     if (effect > 1)
-                    {
-                        if (Math.random() > 5)
-                        {
-                            m.invoke(event.entityLiving, true, 0);
-                        }
-                    }
-                    // m.setAccessible(false);
-                } catch (final Exception e)
-                {
-                    e.printStackTrace();
+                        if (Math.random() > 5) dropFewItems.invoke(event.entityLiving, true, 0);
                 }
-            }
+                catch (IllegalAccessException | IllegalArgumentException
+                        | InvocationTargetException e)
+                {
+                    logger.log(
+                            Level.INFO,
+                            "Disabling fantasy weapon death effects. Problem with \"dropFewItems\": ",
+                            e);
+                    dropFewItems = null;
+                }
         }
+    }
+
+    private void setDeathEffect(final MetalSet fantasySet, final String name, final int effect)
+    {
+        if (fantasySet.getOreInfo(name).isEnabled())
+            deathEffects.put(fantasySet.getOreInfo(name).getSword().itemID, effect);
+    }
+
+    private void setEffect(final MetalSet fantasySet, final String name, final int potionID,
+            final int amplifier, final boolean ignite)
+    {
+        if (fantasySet.getOreInfo(name).isEnabled())
+            effects.put(fantasySet.getOreInfo(name).getSword().itemID, new Effect(potionID,
+                    amplifier, ignite));
     }
 }
