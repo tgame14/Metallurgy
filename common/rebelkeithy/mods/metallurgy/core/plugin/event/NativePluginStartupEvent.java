@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.EventBus;
-import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
+import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public abstract class NativePluginStartupEvent extends Event
