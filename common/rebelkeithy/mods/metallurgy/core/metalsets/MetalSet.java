@@ -8,8 +8,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.Configuration;
 import rebelkeithy.mods.metallurgy.api.IMetalSet;
 import rebelkeithy.mods.metallurgy.api.IOreInfo;
-import rebelkeithy.mods.metallurgy.core.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
+import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 
 public class MetalSet implements IMetalSet
 {
