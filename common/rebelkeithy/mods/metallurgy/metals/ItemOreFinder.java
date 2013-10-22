@@ -24,8 +24,7 @@ public class ItemOreFinder extends Item
 {	
     private ExecutorService exec = Executors.newCachedThreadPool();
 
-
-	public ItemOreFinder(int par1)
+	ItemOreFinder(int par1)
     {
         super(par1);
         setMaxDamage(64);
@@ -183,5 +182,4 @@ public class ItemOreFinder extends Item
     {
         itemIcon = par1IconRegister.registerIcon("Metallurgy:machines/OreFinder");
     }
-
 }
