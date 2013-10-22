@@ -153,7 +153,7 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
         }
         else
         {
-            final ItemStack var1 = CrusherRecipes.smelting().getCrushingResult(furnaceItemStacks[0]);
+            final ItemStack var1 = CrusherRecipes.INSTANCE.getCrushingResult(furnaceItemStacks[0]);
             if (var1 == null)
             {
                 return false;
@@ -561,7 +561,7 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
     {
         if (canSmelt())
         {
-            final ItemStack var1 = CrusherRecipes.smelting().getCrushingResult(furnaceItemStacks[0]);
+            final ItemStack var1 = CrusherRecipes.INSTANCE.getCrushingResult(furnaceItemStacks[0]);
 
             if (furnaceItemStacks[2] == null)
             {

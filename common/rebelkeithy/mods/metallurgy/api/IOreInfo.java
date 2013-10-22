@@ -1,5 +1,6 @@
 package rebelkeithy.mods.metallurgy.api;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public interface IOreInfo
@@ -36,4 +37,12 @@ public interface IOreInfo
     public OreType getType();
 
     public boolean isEnabled();
+    
+    public Item getAxe();
+
+    public Item getPickaxe();
+
+    public Item getShovel();
+
+    public Item getSword();
 }

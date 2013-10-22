@@ -19,9 +19,7 @@ import rebelkeithy.mods.metallurgy.api.plugin.event.PluginPreInitEvent;
 import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.core.metalsets.MetalSet;
 import rebelkeithy.mods.metallurgy.core.plugin.PluginLoader;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -49,7 +47,7 @@ public class MetallurgyCore
 
     @Instance(value = "Metallurgy3")
     public static MetallurgyCore instance;
-
+    
     @SidedProxy(clientSide = "rebelkeithy.mods.metallurgy.core.ClientProxy", serverSide = "rebelkeithy.mods.metallurgy.core.CommonProxy")
     public static CommonProxy proxy;
 
@@ -78,7 +76,7 @@ public class MetallurgyCore
     public void init(FMLInitializationEvent event)
     {
         log.fine("Posting init event to plugins.");
-        PLUGIN_BUS.post(new NativePluginInitEvent(log, configDir, dbMetal));
+        PLUGIN_BUS.post(new NativePluginStartupEvent.Init(PLUGIN_BUS, configDir, log, dbMetal));
         PLUGIN_BUS.post(new PluginInitEvent());
 
         for (final MetalSet set : getMetalSetList())
@@ -137,7 +135,7 @@ public class MetallurgyCore
     public void postInit(FMLPostInitializationEvent event)
     {
         log.fine("Posting postInit event to plugins.");
-        PLUGIN_BUS.post(new NativePluginPostInitEvent(log, configDir, dbMetal));
+        PLUGIN_BUS.post(new NativePluginStartupEvent.Post(PLUGIN_BUS, configDir, log, dbMetal));
         PLUGIN_BUS.post(new PluginPostInitEvent());
         dbMetal = null; // Free memory unless someone else kept a reference
     }
@@ -181,7 +179,7 @@ public class MetallurgyCore
         PluginLoader.loadPlugins(PLUGIN_BUS, event.getSourceFile(), new File(MetallurgyCore.proxy.getMinecraftDir() + "/mods"), log);
 
         log.fine("Posting preInit event to plugins.");
-        final NativePluginPreInitEvent pluginEvent = new NativePluginPreInitEvent(event, instance, MOD_VERSION, dbMetal);
+        final NativePluginStartupEvent.Pre pluginEvent = new NativePluginStartupEvent.Pre(event, instance, PLUGIN_BUS, MOD_VERSION, dbMetal);
         configDir = pluginEvent.getMetallurgyConfigDir();
         PLUGIN_BUS.post(pluginEvent);
         PLUGIN_BUS.post(new PluginPreInitEvent(event, MOD_VERSION));

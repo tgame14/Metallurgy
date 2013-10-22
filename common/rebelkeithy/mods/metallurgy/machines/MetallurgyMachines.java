@@ -8,13 +8,11 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
+import rebelkeithy.mods.metallurgy.api.plugin.event.AddCrusherRecipesEvent;
 import rebelkeithy.mods.metallurgy.core.MetallurgyCore;
 import rebelkeithy.mods.metallurgy.core.MetallurgyTabs;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPostInitEvent;
-import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginPreInitEvent;
-import rebelkeithy.mods.metallurgy.integration.AppliedEnergestics;
+import rebelkeithy.mods.metallurgy.core.plugin.event.NativePluginStartupEvent;
 import rebelkeithy.mods.metallurgy.machines.abstractor.AbstractorRecipes;
 import rebelkeithy.mods.metallurgy.machines.abstractor.BlockAbstractor;
 import rebelkeithy.mods.metallurgy.machines.abstractor.BlockAbstractorItem;
@@ -192,7 +190,7 @@ public class MetallurgyMachines
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(glassDust, 2, 7), new ItemStack(glassDust, 1, 0), "dustHepatizon"));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(glassDust, 2, 8), new ItemStack(glassDust, 1, 0), "dustSteel"));
 
-        CrusherRecipes.addCrushing(Block.glass.blockID, 0, new ItemStack(glassDust, 1, 0));
+        CrusherRecipes.INSTANCE.addCrushing(Block.glass.blockID, 0, new ItemStack(glassDust, 1, 0));
 
         if (ConfigMachines.ladderEnabled)
         {
@@ -204,13 +202,13 @@ public class MetallurgyMachines
     }
 
     @ForgeSubscribe
-    public void postInit(NativePluginPostInitEvent event)
+    public void postInit(NativePluginStartupEvent.Post event)
     {
-        AppliedEnergestics.init();
+        event.getMetallurgyBus().post(new AddCrusherRecipesEvent(CrusherRecipes.INSTANCE));
     }
     
     @ForgeSubscribe
-    public void Init(NativePluginInitEvent event)
+    public void Init(NativePluginStartupEvent.Init event)
     {
         loadCrusher();
         if(ConfigMachines.crusherEnabled){
@@ -262,12 +260,12 @@ public class MetallurgyMachines
         LanguageRegistry.addName(new ItemStack(crusher, 1, 3), "Iron Crusher");
         LanguageRegistry.addName(new ItemStack(crusher, 1, 4), "Steel Crusher");
 
-        CrusherRecipes.addCrushing(Block.cobblestone.blockID, 0, new ItemStack(Block.gravel));
-        CrusherRecipes.addCrushing(Block.stone.blockID, 0, new ItemStack(Block.gravel));
-        CrusherRecipes.addCrushing(Block.netherrack.blockID, 0, new ItemStack(Block.slowSand));
-        CrusherRecipes.addCrushing(Block.glowStone.blockID, 0, new ItemStack(Item.glowstone, 4));
-        CrusherRecipes.addCrushing(Block.gravel.blockID, 0, new ItemStack(Block.sand));
-        CrusherRecipes.addCrushing(Block.sandStone.blockID, 0, new ItemStack(Block.sand, 4));
+        CrusherRecipes.INSTANCE.addCrushing(Block.cobblestone.blockID, 0, new ItemStack(Block.gravel));
+        CrusherRecipes.INSTANCE.addCrushing(Block.stone.blockID, 0, new ItemStack(Block.gravel));
+        CrusherRecipes.INSTANCE.addCrushing(Block.netherrack.blockID, 0, new ItemStack(Block.slowSand));
+        CrusherRecipes.INSTANCE.addCrushing(Block.glowStone.blockID, 0, new ItemStack(Item.glowstone, 4));
+        CrusherRecipes.INSTANCE.addCrushing(Block.gravel.blockID, 0, new ItemStack(Block.sand));
+        CrusherRecipes.INSTANCE.addCrushing(Block.sandStone.blockID, 0, new ItemStack(Block.sand, 4));
     }
 
     public void initEnchanter()
@@ -443,14 +441,14 @@ public class MetallurgyMachines
         // CrusherUpgradeRecipes.addRecipes();
         createMachineRecipes();
 
-        CrusherRecipes.addCrushing(Block.oreIron.blockID, 0, new ItemStack(MetallurgyMetals.dustIron, 2));
-        CrusherRecipes.addCrushing(Block.oreGold.blockID, 0, new ItemStack(MetallurgyMetals.dustGold, 2));
-        CrusherRecipes.addCrushing(Item.ingotIron.itemID, 0, new ItemStack(MetallurgyMetals.dustIron));
-        CrusherRecipes.addCrushing(Item.ingotGold.itemID, 0, new ItemStack(MetallurgyMetals.dustGold));
+        CrusherRecipes.INSTANCE.addCrushing(Block.oreIron.blockID, 0, new ItemStack(MetallurgyMetals.dustIron, 2));
+        CrusherRecipes.INSTANCE.addCrushing(Block.oreGold.blockID, 0, new ItemStack(MetallurgyMetals.dustGold, 2));
+        CrusherRecipes.INSTANCE.addCrushing(Item.ingotIron.itemID, 0, new ItemStack(MetallurgyMetals.dustIron));
+        CrusherRecipes.INSTANCE.addCrushing(Item.ingotGold.itemID, 0, new ItemStack(MetallurgyMetals.dustGold));
     }
 
     @ForgeSubscribe
-    public void preInit(NativePluginPreInitEvent event)
+    public void preInit(NativePluginStartupEvent.Pre event)
     {
         instance = event.getMetallurgyInstance();
         

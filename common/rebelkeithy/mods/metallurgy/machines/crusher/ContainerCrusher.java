@@ -102,7 +102,7 @@ public class ContainerCrusher extends Container
             }
             else if (par2 != 1 && par2 != 0)
             {
-                if (CrusherRecipes.smelting().getCrushingResult(var4) != null)
+                if (CrusherRecipes.INSTANCE.getCrushingResult(var4) != null)
                 {
                     if (!mergeItemStack(var4, 0, 1, false))
                     {
