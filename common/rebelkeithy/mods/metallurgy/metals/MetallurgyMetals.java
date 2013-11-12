@@ -93,7 +93,7 @@ public class MetallurgyMetals
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Block.rail, 32), "X X", "XSX", "X X", 'X', "ingotAngmallen", 'S', Item.stick));
     }
 
-    public void addSwordEffects()
+    public void addSwordEffects(Logger logger)
     {
         ISwordHitListener swordEffects = new NetherSwordHitListener();
         MinecraftForge.EVENT_BUS.register(swordEffects); // Registers the on
@@ -157,7 +157,7 @@ public class MetallurgyMetals
             netherSet.getOreInfo("Sanguinite").getSword().setSubText("cWither I");
         }
 
-        swordEffects = new FantasySwordHitListener();
+        swordEffects = new FantasySwordHitListener(logger, fantasySet);
         MinecraftForge.EVENT_BUS.register(swordEffects); // Registers the on
                                                          // death event needed
                                                          // by Astral Silver's
@@ -396,7 +396,7 @@ public class MetallurgyMetals
         }
 
         addRailRecipes();
-        addSwordEffects();
+        addSwordEffects(event.getMetallurgyLog());
 
         proxy.registerParticles();
     }

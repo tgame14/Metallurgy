@@ -8,59 +8,34 @@ import rebelkeithy.mods.keithyutils.metablock.IDisplayListener;
 public class DisplayListenerVyroxeresOreParticles implements IDisplayListener
 {
     @Override
-    public void randomDisplayTick(World par1World, int x, int y, int z, Random rand)
+    public void randomDisplayTick(final World world, final int x, final int y, final int z,
+            final Random rand)
     {
-        final double var6 = 0.0625D;
+        final double margin = 0.0625D;
 
-        for (int var8 = 0; var8 < 6; ++var8)
+        for (int i = 0; i < 6; ++i)
         {
-            if (Math.random() < 0.3)
-            {
-                continue;
-            }
+            if (Math.random() < 0.3) continue;
 
-            double var9 = x + rand.nextDouble();
-            double var11 = y + rand.nextDouble();
-            double var13 = z + rand.nextDouble();
+            double spawnX = x + rand.nextDouble();
+            double spawnY = y + rand.nextDouble();
+            double spawnZ = z + rand.nextDouble();
 
-            if (var8 == 0 && !par1World.isBlockOpaqueCube(x, y + 1, z))
-            {
-                var11 = y + 1 + var6;
-            }
+            if (i == 0 && !world.isBlockOpaqueCube(x, y + 1, z)) spawnY = y + 1 + margin;
 
-            if (var8 == 1 && !par1World.isBlockOpaqueCube(x, y - 1, z))
-            {
-                var11 = y + 0 - var6;
-            }
+            if (i == 1 && !world.isBlockOpaqueCube(x, y - 1, z)) spawnY = y + 0 - margin;
 
-            if (var8 == 2 && !par1World.isBlockOpaqueCube(x, y, z + 1))
-            {
-                var13 = z + 1 + var6;
-            }
+            if (i == 2 && !world.isBlockOpaqueCube(x, y, z + 1)) spawnZ = z + 1 + margin;
 
-            if (var8 == 3 && !par1World.isBlockOpaqueCube(x, y, z - 1))
-            {
-                var13 = z + 0 - var6;
-            }
+            if (i == 3 && !world.isBlockOpaqueCube(x, y, z - 1)) spawnZ = z + 0 - margin;
 
-            if (var8 == 4 && !par1World.isBlockOpaqueCube(x + 1, y, z))
-            {
-                var9 = x + 1 + var6;
-            }
+            if (i == 4 && !world.isBlockOpaqueCube(x + 1, y, z)) spawnX = x + 1 + margin;
 
-            if (var8 == 5 && !par1World.isBlockOpaqueCube(x - 1, y, z))
-            {
-                var9 = x + 0 - var6;
-            }
+            if (i == 5 && !world.isBlockOpaqueCube(x - 1, y, z)) spawnX = x + 0 - margin;
 
-            if (var9 < x || var9 > x + 1 || var11 < 0.0D || var11 > y + 1 || var13 < z || var13 > z + 1)
-            {
-                // MetallurgyFantasy.proxy.spawnParticle(particle, par1World,
-                // var9, var11, var13, r, g, b);
-                // ParticleRegistry.spawnParticle(name, par1World, var9, var11,
-                // var13, r, g, b);
-                par1World.spawnParticle("mobSpell", var9, var11, var13, 0.0D, 0.7D, 0.0D);
-            }
+            if (spawnX < x || spawnX > x + 1 || spawnY < 0.0D || spawnY > y + 1 || spawnZ < z
+                    || spawnZ > z + 1)
+                world.spawnParticle("mobSpell", spawnX, spawnY, spawnZ, 0.0D, 0.7D, 0.0D);
         }
 
     }
