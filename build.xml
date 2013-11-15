@@ -97,8 +97,9 @@
 	</target>
 
 	<!-- Download necessary files -->
-	<target name="download-files" depends="download-forge">
+	<target name="download-files">
 		<get src="https://github.com/TeamMetallurgy/KeithyUtils/archive/master.zip" dest="${download.dir}"/>
+		<antcall taskname="download-forge"/> 
 	</target>
 
 	<!-- Download forge (if it doesn't exist) -->
