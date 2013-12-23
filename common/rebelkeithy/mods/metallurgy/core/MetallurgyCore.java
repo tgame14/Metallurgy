@@ -82,7 +82,7 @@ public class MetallurgyCore
         for (final MetalSet set : getMetalSetList())
         {
             set.load();
-            //TODO: Change to Minecraft localization standard
+            //TODO: LanguageRegistry Clean up
             //proxy.registerNamesForMetalSet(set);
         }
     }

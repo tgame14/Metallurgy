@@ -43,7 +43,8 @@ public class ItemLineProcessor extends CSVLineProcessor<Boolean>
                 new ItemMetallurgy(id).setTextureName("Metallurgy:" + setName + "/" + itemName)
                         .setUnlocalizedName("Metallurgy:" + setName + "/" + itemName)
                         .setCreativeTab(tab);
-        LanguageRegistry.addName(item, itemName);
+        //TODO: Registry Clean UP 
+        //LanguageRegistry.addName(item, itemName);
 
         items.put(itemName, item);
         if (!line.get("Ore Dictionary Name").equals("0"))

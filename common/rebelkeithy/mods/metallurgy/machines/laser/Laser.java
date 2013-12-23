@@ -18,6 +18,7 @@ public class Laser
         GameRegistry.registerTileEntity(TileEntityLaser.class, "MinersLaserTE");
 
         GameRegistry.addRecipe(new ItemStack(laser, 2), "SGS", "GRG", "SLS", 'S', Block.stone, 'G', Block.thinGlass, 'R', Block.blockRedstone, 'L', Block.torchWood);
-        LanguageRegistry.addName(laser, "Measuring Laser");
+        //TODO: LanguageRegistry Clean up
+        //LanguageRegistry.addName(laser, "Measuring Laser");
     }
 }

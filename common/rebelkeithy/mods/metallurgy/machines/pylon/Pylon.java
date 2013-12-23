@@ -13,14 +13,17 @@ public class Pylon
 
     public static void init()
     {
-        pylon = new BlockPylon(ConfigMachines.pylonID).setHardness(4f).setCreativeTab(MetallurgyMachines.machineTab);
+        pylon = new BlockPylon(ConfigMachines.pylonID).setHardness(4f)
+        		.setUnlocalizedName("pylon")
+        		.setCreativeTab(MetallurgyMachines.machineTab);
 
         GameRegistry.registerBlock(pylon, BlockPylonItem.class, "MetallurgyPylon");
         GameRegistry.registerTileEntity(TileEntityPylon.class, "MetallurgyPylonTileEntity");
-
-        for (int i = 0; i < BlockPylon.names.length; i++)
+        
+        //TODO: LanguageRegistry Clean up
+        /*for (int i = 0; i < BlockPylon.names.length; i++)
         {
             LanguageRegistry.addName(new ItemStack(pylon, 1, i), BlockPylon.names[i] + " Pylon");
-        }
+        }*/
     }
 }

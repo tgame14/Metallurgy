@@ -256,7 +256,8 @@ public class MetallurgyMetals
             largeTNT = new BlockLargeTNT(id).setUnlocalizedName("M3HETNT").setCreativeTab(utilityTab);
             GameRegistry.registerBlock(largeTNT, "M3HETNT");
             EntityRegistry.registerModEntity(EntityLargeTNTPrimed.class, "LargeTNTEntity", 113, instance, 64, 10, true);
-            LanguageRegistry.addName(largeTNT, "HE TNT");
+            //TODO: LanguageRegistry Clean up
+            //LanguageRegistry.addName(largeTNT, "HE TNT");
             if (utilityConfig.get("Recipes", "Enable HE TNT", true).getBoolean(true))
             {
                 GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(largeTNT, 4), "MPM", "PTP", "MPM", 'M', "dustSaltpeter", 'P', "dustSulfur", 'T', Block.tnt));
@@ -270,7 +271,8 @@ public class MetallurgyMetals
             minersTNT = new BlockMinersTNT(id).setUnlocalizedName("M3LETNT").setCreativeTab(utilityTab);
             GameRegistry.registerBlock(minersTNT, "M3LETNT");
             EntityRegistry.registerModEntity(EntityMinersTNTPrimed.class, "MinersTNTEntity", 113, instance, 64, 10, true);
-            LanguageRegistry.addName(minersTNT, "LE TNT");
+            //TODO: LanguageRegistry Clean up
+            //LanguageRegistry.addName(minersTNT, "LE TNT");
             if (utilityConfig.get("Recipes", "Enable LE TNT", true).getBoolean(true))
             {
                 GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(minersTNT, 4), "MPM", "PTP", "MPM", 'M', "dustMagnesium", 'P', "dustPhosphorus", 'T', Block.tnt));
@@ -280,7 +282,8 @@ public class MetallurgyMetals
 
         id = utilityConfig.get("Item IDs", "Magnesium Igniter", 29007).getInt();
         magnesiumIgniter = new ItemIgniter(id).setMaxDamage(128).setMaxStackSize(1).setTextureName("Metallurgy:Utility/Igniter").setUnlocalizedName("Metallurgy:Utility/Igniter").setCreativeTab(utilityTab);
-        LanguageRegistry.addName(magnesiumIgniter, "Magnesium Igniter");
+        //TODO: LanguageRegistry Clean up
+        //LanguageRegistry.addName(magnesiumIgniter, "Magnesium Igniter");
         if (utilityConfig.get("Recipes", "Enable Magnesium Igniter", true).getBoolean(true))
         {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(magnesiumIgniter), "X ", " F", 'X', "dustMagnesium", 'F', Item.flint));
@@ -288,7 +291,8 @@ public class MetallurgyMetals
 
         id = utilityConfig.get("Item IDs", "Match", 29008).getInt();
         match = new ItemIgniter(id).setMaxDamage(1).setMaxStackSize(64).setTextureName("Metallurgy:Utility/Match").setUnlocalizedName("Metallurgy:Utility/Match").setCreativeTab(utilityTab);
-        LanguageRegistry.addName(match, "Match");
+        //TODO: LanguageRegistry Clean up
+        //LanguageRegistry.addName(match, "Match");
         if (utilityConfig.get("Recipes", "Enable Match", true).getBoolean(true))
         {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(match, 4), "X", "|", 'X', "dustPhosphorus", '|', Item.stick));
@@ -296,7 +300,8 @@ public class MetallurgyMetals
 
         id = utilityConfig.get("Item IDs", "Fertilizer", 29009).getInt();
         fertilizer = new ItemFertilizer(id).setTextureName("Metallurgy:Utility/Fertilizer").setUnlocalizedName("Metallurgy:Utility/Fertilizer").setCreativeTab(utilityTab);
-        LanguageRegistry.addName(fertilizer, "Fertilizer");
+        //TODO: LanguageRegistry Clean up
+        //LanguageRegistry.addName(fertilizer, "Fertilizer");
         if (utilityConfig.get("Recipes", "Enable Fertilizer", true).getBoolean(true))
         {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(fertilizer, 8), "dustPhosphorus", "dustMagnesium", "dustPotash"));
@@ -308,7 +313,8 @@ public class MetallurgyMetals
 
         id = utilityConfig.get("Item IDs", "Tar", 29010).getInt();
         tar = new ItemMetallurgy(id).setTextureName("Metallurgy:Utility/Tar").setUnlocalizedName("Metallurgy:Utility/Tar").setCreativeTab(utilityTab);
-        LanguageRegistry.addName(tar, "Tar");
+        //TODO: LanguageRegistry Clean up
+        //LanguageRegistry.addName(tar, "Tar");
         OreDictionary.registerOre("itemTar", tar);
         GameRegistry.addSmelting(dbMetal.getItem("Bitumen").itemID, new ItemStack(tar), 0.1F);
 
@@ -330,14 +336,14 @@ public class MetallurgyMetals
         FurnaceRecipes.smelting().addSmelting(dustIron.itemID, 0, new ItemStack(Item.ingotIron), 0.7F);
         FurnaceRecipes.smelting().addSmelting(dustGold.itemID, 0, new ItemStack(Item.ingotGold), 0.7F);
 
-        LanguageRegistry.addName(dustIron, "Iron Dust");
-        LanguageRegistry.addName(dustGold, "Gold Dust");
+        //LanguageRegistry.addName(dustIron, "Iron Dust");
+        //LanguageRegistry.addName(dustGold, "Gold Dust");
         OreDictionary.registerOre("dustIron", dustIron);
         OreDictionary.registerOre("dustGold", dustGold);
 
         if (oreFinderEnabled)
         {
-            debug = new ItemOreFinder(oreFinderID).setUnlocalizedName("stick").setCreativeTab(CreativeTabs.tabTools);
+            debug = new ItemOreFinder(oreFinderID).setUnlocalizedName("oreFinder").setCreativeTab(CreativeTabs.tabTools);
         }
 
         if (fantasySet.getOreInfo("Atral Silver").getOreItem() != null)
@@ -510,12 +516,13 @@ public class MetallurgyMetals
             utilityTab = new MetallurgyTabs("Metallurgy: Utility");
         }
 
-        LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Base", "Metallurgy: Base");
+        //TODO: LanguageRegistry Clean up
+        /*LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Base", "Metallurgy: Base");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Precious", "Metallurgy: Precious");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Nether", "Metallurgy: Nether");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Fantasy", "Metallurgy: Fantasy");
         LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Utility", "Metallurgy: Utility");
-        LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");
+        LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Ender", "Metallurgy: Ender");*/
 
         String filepath = "assets/metallurgy/data";
         final URL metalSetsResource = Resources.getResource(filepath + "/spreadsheet.csv");

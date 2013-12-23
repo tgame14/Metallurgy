@@ -685,7 +685,8 @@ public class OreInfo implements IOreInfo, IWorldGenerator
 
     void registerNames()
     {
-        if (type == RESPAWN || !enabled)
+    	//TODO: LanguageRegistry Clean up
+        /* if (type == RESPAWN || !enabled)
         {
             return;
         }
@@ -721,7 +722,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             LanguageRegistry.addName(chest, name + " Chestplate");
             LanguageRegistry.addName(legs, name + " Legs");
             LanguageRegistry.addName(boots, name + " Boots");
-        }
+        }*/
     }
 
     private void setLevels()

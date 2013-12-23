@@ -26,7 +26,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerNamesForMetalSet(MetalSet set)
     {
-        set.registerNames();
+        //set.registerNames();
     }
 
     @Override
