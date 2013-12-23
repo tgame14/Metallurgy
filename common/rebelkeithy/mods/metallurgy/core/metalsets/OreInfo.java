@@ -127,6 +127,8 @@ public class OreInfo implements IOreInfo, IWorldGenerator
         setName = info.get("Metal Set");
         name = info.get("Name");
         unlocalizedName = name.replaceAll("\\s", "");
+        unlocalizedName = unlocalizedName.substring(0, 1).toLowerCase() + unlocalizedName.substring(1);
+        unlocalizedName = "metallurgy." + unlocalizedName;
         this.tab = tab;
         if (info.get("Type").equals("Ore"))
         {

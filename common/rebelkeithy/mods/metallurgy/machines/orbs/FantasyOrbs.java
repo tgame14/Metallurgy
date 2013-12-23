@@ -14,7 +14,7 @@ public class FantasyOrbs
 
     public static void init()
     {
-        orb = new ItemOrb(ConfigMachines.orbID).setUnlocalizedName("MetallurgyOrb").setCreativeTab(MetallurgyMachines.machineTab);
+        orb = new ItemOrb(ConfigMachines.orbID).setUnlocalizedName("metallurgy.orb").setCreativeTab(MetallurgyMachines.machineTab);
 
         //TODO: LanguageRegistry Clean up
         /*for (int i = 0; i < ItemOrb.names.length; i++)

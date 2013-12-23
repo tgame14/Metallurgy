@@ -28,9 +28,9 @@ public class VanillaAddons
     {
         initConfig(configDir);
         goldBrick = new SubBlock(goldBrickID, goldBrickMeta, "Metallurgy:Vanilla/GoldBrick").setHardness(3.0F).setResistance(10.0F)
-                .setUnlocalizedName("GoldBricks").setCreativeTab(CreativeTabs.tabBlock);
+                .setUnlocalizedName("metallurgy.goldBricks").setCreativeTab(CreativeTabs.tabBlock);
         ironBrick = new SubBlock(ironBrickID, ironBrickMeta, "Metallurgy:Vanilla/IronBrick").setHardness(5.0F).setResistance(10.0F)
-                .setUnlocalizedName("IronBricks").setCreativeTab(CreativeTabs.tabBlock);
+                .setUnlocalizedName("metallurgy.IronBricks").setCreativeTab(CreativeTabs.tabBlock);
         MetaBlock.registerID(goldBrickID);
         MetaBlock.registerID(ironBrickID);
     }
@@ -60,7 +60,8 @@ public class VanillaAddons
 
     public static void registerNames()
     {
-        LanguageRegistry.addName(new ItemStack(goldBrickID, 1, goldBrickMeta), "Gold Bricks");
-        LanguageRegistry.addName(new ItemStack(ironBrickID, 1, ironBrickMeta), "Iron Bricks");
+    	//TODO: LanguageRegistry Clean up
+        /*LanguageRegistry.addName(new ItemStack(goldBrickID, 1, goldBrickMeta), "Gold Bricks");
+        LanguageRegistry.addName(new ItemStack(ironBrickID, 1, ironBrickMeta), "Iron Bricks");*/
     }
 }

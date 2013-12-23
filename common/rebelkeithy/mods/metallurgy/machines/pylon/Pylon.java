@@ -14,7 +14,7 @@ public class Pylon
     public static void init()
     {
         pylon = new BlockPylon(ConfigMachines.pylonID).setHardness(4f)
-        		.setUnlocalizedName("pylon")
+        		.setUnlocalizedName("metallurgy.pylon")
         		.setCreativeTab(MetallurgyMachines.machineTab);
 
         GameRegistry.registerBlock(pylon, BlockPylonItem.class, "MetallurgyPylon");

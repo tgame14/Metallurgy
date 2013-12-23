@@ -13,7 +13,7 @@ public class Laser
 
     public static void init()
     {
-        laser = new BlockLaser(ConfigMachines.laserID).setHardness(0.2F).setUnlocalizedName("MinersLaser").setCreativeTab(MetallurgyMachines.machineTab);
+        laser = new BlockLaser(ConfigMachines.laserID).setHardness(0.2F).setUnlocalizedName("metallurgy.minersLaser").setCreativeTab(MetallurgyMachines.machineTab);
         GameRegistry.registerBlock(laser, "MinersLaser");
         GameRegistry.registerTileEntity(TileEntityLaser.class, "MinersLaserTE");
 

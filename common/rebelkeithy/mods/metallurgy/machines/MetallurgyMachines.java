@@ -218,7 +218,7 @@ public class MetallurgyMachines
 
     public void initAbstractor()
     {
-        abstractor = new BlockAbstractor(ConfigMachines.abstractorID, false).setHardness(3.5F).setUnlocalizedName("M3Abstractor").setHardness(2.0F).setCreativeTab(machineTab);
+        abstractor = new BlockAbstractor(ConfigMachines.abstractorID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.abstractor").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(abstractor, BlockAbstractorItem.class, "BlockM3Abstractor");
         GameRegistry.registerTileEntity(TileEntityAbstractor.class, "TileEntityAbstractor");
         
@@ -240,7 +240,7 @@ public class MetallurgyMachines
 
     public void initChests()
     {
-        chest = new BlockPreciousChest(ConfigMachines.chestID).setUnlocalizedName("M3PreciousChest").setHardness(1.0F).setCreativeTab(machineTab);
+        chest = new BlockPreciousChest(ConfigMachines.chestID).setUnlocalizedName("metallurgy.chest").setHardness(1.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(chest, ItemBlockPreciousChest.class, "PreciousChest");
         GameRegistry.registerTileEntity(TileEntityPreciousChest.class, "TileEntityPreciousChest");
         
@@ -254,7 +254,7 @@ public class MetallurgyMachines
 
     public void initCrusher()
     {
-        crusher = new BlockCrusher(ConfigMachines.crusherID, false).setHardness(3.5F).setUnlocalizedName("Crusher").setHardness(2.0F).setCreativeTab(machineTab);
+        crusher = new BlockCrusher(ConfigMachines.crusherID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.crusher").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(crusher, BlockCrusherItem.class, "BlockCrusher");
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "TileEntityCrusher");
 
@@ -275,7 +275,7 @@ public class MetallurgyMachines
 
     public void initEnchanter()
     {
-        enchanter = new BlockMetallurgyEnchantmentTable(ConfigMachines.enchanterID).setUnlocalizedName("Metallurgy:machines/enchanter/Enchanter").setHardness(2.0F)
+        enchanter = new BlockMetallurgyEnchantmentTable(ConfigMachines.enchanterID).setUnlocalizedName("metallurgy.enchanter").setHardness(2.0F)
                 .setCreativeTab(machineTab);
         GameRegistry.registerBlock(enchanter, "M3Enchanter");
         GameRegistry.registerTileEntity(TileEntityMetallurgyEnchantmentTable.class, "TileEntityM3Enchanter");
@@ -287,7 +287,7 @@ public class MetallurgyMachines
 
     public void initForge()
     {
-        forge = new BlockNetherForge(ConfigMachines.forgeID, false).setHardness(3.5F).setUnlocalizedName("NetherForge").setHardness(2.0F).setCreativeTab(machineTab);
+        forge = new BlockNetherForge(ConfigMachines.forgeID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.forge").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(forge, BlockNetherForgeItem.class, "BlockNetherForge");
         GameRegistry.registerTileEntity(TileEntityNetherForge.class, "TileEntityNetherForge");
 
@@ -305,7 +305,7 @@ public class MetallurgyMachines
 
     public void initFurnace()
     {
-        furnace = new BlockMetalFurnace(ConfigMachines.furnaceID, false).setHardness(3.5F).setUnlocalizedName("MetallurgyFurnace").setHardness(2.0F).setCreativeTab(machineTab);
+        furnace = new BlockMetalFurnace(ConfigMachines.furnaceID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.furnace").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(furnace, BlockMetalFurnaceItem.class, "BlockMetalFurnace");
         GameRegistry.registerTileEntity(TileEntityMetalFurnace.class, "TileEntityMetalFurnace");
         
@@ -319,7 +319,7 @@ public class MetallurgyMachines
 
     public void initLadders()
     {
-        ladder = new BlockMetalLadder(ConfigMachines.ladderID).setUnlocalizedName("M3Ladder").setHardness(1.0F).setCreativeTab(machineTab);
+        ladder = new BlockMetalLadder(ConfigMachines.ladderID).setUnlocalizedName("metallurgy.ladder").setHardness(1.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(ladder, ItemBlockMetalLadder.class, "M3MetalLadder");
         
         //TODO: LanguageRegistry Clean up
@@ -332,7 +332,7 @@ public class MetallurgyMachines
 
     public void initLantern()
     {
-        lantern = new BlockLantern(ConfigMachines.lanternID).setHardness(0.1F).setUnlocalizedName("M3Lantern").setLightValue(1F).setCreativeTab(machineTab);
+        lantern = new BlockLantern(ConfigMachines.lanternID).setHardness(0.1F).setUnlocalizedName("metallurgy.lantern").setLightValue(1F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(lantern, ItemBlockLantern.class, "M3Lantern");
         GameRegistry.registerTileEntity(TileEntityLantern.class, "TileEntityLantern");
         
@@ -346,7 +346,7 @@ public class MetallurgyMachines
         LanguageRegistry.addName(new ItemStack(lantern, 1, 6), "Grey Lantern");
         LanguageRegistry.addName(new ItemStack(lantern, 1, 7), "White Lantern");*/
 
-        coloredGlass = new BlockColoredGlass(ConfigMachines.coloredGlassID).setUnlocalizedName("M3ColoredGlass").setHardness(0.3F).setCreativeTab(machineTab);
+        coloredGlass = new BlockColoredGlass(ConfigMachines.coloredGlassID).setUnlocalizedName("metallurgy.coloredGlass").setHardness(0.3F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(coloredGlass, ItemBlockColoredGlass.class, "M3ColoredGlass");
         //TODO: LanguageRegsitry Clean up
         /*LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 0), "Red Glass");
@@ -358,7 +358,7 @@ public class MetallurgyMachines
         LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 6), "Grey Glass");
         LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 7), "White Glass");*/
 
-        glassDust = new ItemGlassDust(ConfigMachines.glassDustID).setUnlocalizedName("M3GlassDust").setCreativeTab(machineTab);
+        glassDust = new ItemGlassDust(ConfigMachines.glassDustID).setUnlocalizedName("metallurgy.glassDust").setCreativeTab(machineTab);
         //TODO: LanguageRegistry Clean up
         /*LanguageRegistry.addName(new ItemStack(glassDust, 1, 0), "Glass Dust");
         LanguageRegistry.addName(new ItemStack(glassDust, 1, 1), "Red Glass Dust");
@@ -370,7 +370,7 @@ public class MetallurgyMachines
         LanguageRegistry.addName(new ItemStack(glassDust, 1, 7), "Grey Glass Dust");
         LanguageRegistry.addName(new ItemStack(glassDust, 1, 8), "White Glass Dust");*/
         
-        sawDust = new ItemMetallurgy(ConfigMachines.sawDustID).setTextureName("Metallurgy:machines/SawDust").setUnlocalizedName("Metallurgy:machines/SawDust").setCreativeTab(machineTab);
+        sawDust = new ItemMetallurgy(ConfigMachines.sawDustID).setTextureName("Metallurgy:machines/SawDust").setUnlocalizedName("metallurgy.sawDust").setCreativeTab(machineTab);
         //TODO: LanguageRegistry Clean up
         //LanguageRegistry.addName(new ItemStack(sawDust), "Saw Dust");
         GameRegistry.addSmelting(sawDust.itemID, new ItemStack(Item.coal, 1,1), 0.15F);
@@ -378,8 +378,8 @@ public class MetallurgyMachines
     
     public void initMint()
     {
-        mint = new BlockMint(ConfigMachines.mintID).setHardness(2.0F).setUnlocalizedName("M3Mint").setHardness(2.0F).setCreativeTab(machineTab);
-        mintStorage = new BlockMintStorage(ConfigMachines.mintStorageID).setHardness(2.0F).setUnlocalizedName("M3MintStorage").setHardness(2.0F).setCreativeTab(machineTab);
+        mint = new BlockMint(ConfigMachines.mintID).setHardness(2.0F).setUnlocalizedName("metallurgy.mint").setHardness(2.0F).setCreativeTab(machineTab);
+        mintStorage = new BlockMintStorage(ConfigMachines.mintStorageID).setHardness(2.0F).setUnlocalizedName("metallurgy.mintStorage").setHardness(2.0F).setCreativeTab(machineTab);
 
         GameRegistry.registerBlock(mint, "M3Mint");
         GameRegistry.registerBlock(mintStorage, "M3MintStorage");
@@ -390,12 +390,12 @@ public class MetallurgyMachines
         /*LanguageRegistry.addName(mint, "Mint");
         LanguageRegistry.addName(mintStorage, "Mint Storage");*/
 
-        coin = new ItemMetallurgy(ConfigMachines.coinID).setTextureName("Metallurgy:Precious/coin").setUnlocalizedName("Metallurgy:Precious/coin").setCreativeTab(machineTab);
-        stack = new ItemMetallurgy(ConfigMachines.stackID).setTextureName("Metallurgy:Precious/ctack").setUnlocalizedName("Metallurgy:Precious/ctack").setCreativeTab(machineTab);
-        bag = new ItemMetallurgy(ConfigMachines.coinBagID).setTextureName("Metallurgy:Precious/bag").setUnlocalizedName("Metallurgy:Precious/bag").setCreativeTab(machineTab);
-        bullion = new ItemMetallurgy(ConfigMachines.bullionID).setTextureName("Metallurgy:Precious/bullion").setUnlocalizedName("Metallurgy:Precious/bullion")
+        coin = new ItemMetallurgy(ConfigMachines.coinID).setTextureName("Metallurgy:Precious/coin").setUnlocalizedName("metallurgy.coin").setCreativeTab(machineTab);
+        stack = new ItemMetallurgy(ConfigMachines.stackID).setTextureName("Metallurgy:Precious/ctack").setUnlocalizedName("metallurgy.coinStack").setCreativeTab(machineTab);
+        bag = new ItemMetallurgy(ConfigMachines.coinBagID).setTextureName("Metallurgy:Precious/bag").setUnlocalizedName("metallurgy.coinBag").setCreativeTab(machineTab);
+        bullion = new ItemMetallurgy(ConfigMachines.bullionID).setTextureName("Metallurgy:Precious/bullion").setUnlocalizedName("metallurgy.bullion")
                 .setCreativeTab(machineTab);
-        goldCog = new ItemMetallurgy(ConfigMachines.goldCogID).setTextureName("Metallurgy:Precious/goldCog").setUnlocalizedName("Metallurgy:Precious/goldCog")
+        goldCog = new ItemMetallurgy(ConfigMachines.goldCogID).setTextureName("Metallurgy:Precious/goldCog").setUnlocalizedName("metallurgy.goldCog")
                 .setCreativeTab(machineTab);
         //TODO: LanguageRegistry Clean up
         /*LanguageRegistry.addName(coin, "Coin");
@@ -446,8 +446,8 @@ public class MetallurgyMachines
 
     public void initStorage()
     {
-        storageAccessor = new BlockStorageAccessor(919).setUnlocalizedName("StorageAccessorBlock").setHardness(2.0F).setCreativeTab(machineTab);
-        storageBlock = new BlockStorage(920).setUnlocalizedName("StorageBlock").setHardness(2.0F).setCreativeTab(machineTab);
+        storageAccessor = new BlockStorageAccessor(919).setUnlocalizedName("metallurgy.storageAccessorBlock").setHardness(2.0F).setCreativeTab(machineTab);
+        storageBlock = new BlockStorage(920).setUnlocalizedName("metallurgy.storageBlock").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerTileEntity(TileEntityStorageAccessor.class, "TileEntityStorage");
         GameRegistry.registerTileEntity(TileEntityStorageBlock.class, "TileEntityStorageBlock");
         GameRegistry.registerBlock(storageAccessor, "BlockStorageAccessor");
@@ -470,7 +470,7 @@ public class MetallurgyMachines
     {
         instance = event.getMetallurgyInstance();
         
-        machineTab = new MetallurgyTabs("Metallurgy: Machines");
+        machineTab = new MetallurgyTabs("metallurgy.machines");
         // initStorage();
 
         ConfigMachines.initConfig(event.getMetallurgyConfigDir());
