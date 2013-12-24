@@ -548,9 +548,10 @@ public class MetallurgyMetals
         enderSet = new MetalSet("Ender", dbMetal.getDataForSet("Ender"), enderTab, dbMetal, configDir);
         utilitySet = new MetalSet("Utility", dbMetal.getDataForSet("Utility"), utilityTab, dbMetal, configDir);
 
-        dustIron = new ItemMetallurgy(5100).setTextureName("Metallurgy:Vanilla/IronDust").setUnlocalizedName("metallurgy.ironDust")
+        //TODO: change vanilla dusts IDs to configurable
+        dustIron = new ItemMetallurgy(5100).setTextureName("Metallurgy:Vanilla/IronDust").setUnlocalizedName("metallurgy.iron.dust")
                 .setCreativeTab(CreativeTabs.tabMaterials);
-        dustGold = new ItemMetallurgy(5101).setTextureName("Metallurgy:Vanilla/GoldDust").setUnlocalizedName("metallurgy.goldDust")
+        dustGold = new ItemMetallurgy(5101).setTextureName("Metallurgy:Vanilla/GoldDust").setUnlocalizedName("metallurgy.gold.dust")
                 .setCreativeTab(CreativeTabs.tabMaterials);
 
         if (isSetEnabled("Utility", configDir))
