@@ -30,7 +30,7 @@ public class VanillaAddons
         goldBrick = new SubBlock(goldBrickID, goldBrickMeta, "Metallurgy:Vanilla/GoldBrick").setHardness(3.0F).setResistance(10.0F)
                 .setUnlocalizedName("metallurgy.gold.bricks").setCreativeTab(CreativeTabs.tabBlock);
         ironBrick = new SubBlock(ironBrickID, ironBrickMeta, "Metallurgy:Vanilla/IronBrick").setHardness(5.0F).setResistance(10.0F)
-                .setUnlocalizedName("metallurgy.Iron.bricks").setCreativeTab(CreativeTabs.tabBlock);
+                .setUnlocalizedName("metallurgy.iron.bricks").setCreativeTab(CreativeTabs.tabBlock);
         MetaBlock.registerID(goldBrickID);
         MetaBlock.registerID(ironBrickID);
     }

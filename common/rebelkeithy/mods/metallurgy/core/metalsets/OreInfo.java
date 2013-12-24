@@ -496,7 +496,7 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             }
             if (type != DROP && brickID != 0)
             {
-                brick = new SubBlock(brickID, brickMeta, iconNamePrefix + "Brick").setUnlocalizedName(unlocalizedName + ".brick").setCreativeTab(tab);
+                brick = new SubBlock(brickID, brickMeta, iconNamePrefix + "Brick").setUnlocalizedName(unlocalizedName + ".bricks").setCreativeTab(tab);
             }
             if (type != DROP)
             {
