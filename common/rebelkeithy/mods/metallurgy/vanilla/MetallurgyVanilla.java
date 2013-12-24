@@ -29,8 +29,6 @@ public class MetallurgyVanilla
     {
         vanillaSet.init();
         VanillaAddons.load();
-        //TODO: LanguageRegistry Clean up
-        //proxy.registerNames();
     }
 
     @ForgeSubscribe

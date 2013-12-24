@@ -38,7 +38,6 @@ import rebelkeithy.mods.metallurgy.core.database.MetalInfoDatabase;
 import rebelkeithy.mods.metallurgy.machines.abstractor.AbstractorRecipes;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class OreInfo implements IOreInfo, IWorldGenerator
 {
@@ -683,48 +682,6 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             OreDictionary.registerOre("ingot" + name, ingot);
             OreDictionary.registerOre("dust" + name, dust);
         }
-    }
-
-    void registerNames()
-    {
-    	//TODO: LanguageRegistry Clean up
-        /* if (type == RESPAWN || !enabled)
-        {
-            return;
-        }
-
-        if (type.generates() && ore != null)
-        {
-            LanguageRegistry.addName(new ItemStack(oreID, 1, oreMeta), name + " Ore");
-        }
-        if (block != null)
-        {
-            LanguageRegistry.addName(new ItemStack(blockID, 1, blockMeta), name + " Block");
-        }
-        if (brick != null)
-        {
-            LanguageRegistry.addName(new ItemStack(brickID, 1, brickMeta), name + " Brick");
-        }
-
-        if (type != DROP)
-        {
-            LanguageRegistry.addName(dust, name + " Dust");
-            LanguageRegistry.addName(ingot, name + " Ingot");
-        }
-
-        if (type != CATALYST && type != DROP)
-        {
-            LanguageRegistry.addName(pickaxe, name + " Pickaxe");
-            LanguageRegistry.addName(shovel, name + " Shovel");
-            LanguageRegistry.addName(axe, name + " Axe");
-            LanguageRegistry.addName(hoe, name + " Hoe");
-            LanguageRegistry.addName(sword, name + " Sword");
-
-            LanguageRegistry.addName(helmet, name + " Helmet");
-            LanguageRegistry.addName(chest, name + " Chestplate");
-            LanguageRegistry.addName(legs, name + " Legs");
-            LanguageRegistry.addName(boots, name + " Boots");
-        }*/
     }
 
     private void setLevels()

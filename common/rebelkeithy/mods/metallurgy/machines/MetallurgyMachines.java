@@ -57,7 +57,6 @@ import rebelkeithy.mods.metallurgy.metals.MetallurgyMetals;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 
 public class MetallurgyMachines
@@ -221,18 +220,6 @@ public class MetallurgyMachines
         abstractor = new BlockAbstractor(ConfigMachines.abstractorID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.abstractor").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(abstractor, BlockAbstractorItem.class, "BlockM3Abstractor");
         GameRegistry.registerTileEntity(TileEntityAbstractor.class, "TileEntityAbstractor");
-        
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(abstractor, 1, 0), "Prometheum Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 1), "Deep Iron Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 2), "Black Steel Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 3), "Oureclase Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 4), "Mithril Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 5), "Haderoth Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 6), "Orichalcum Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 7), "Adamantine Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 8), "Atlarus Abstractor");
-        LanguageRegistry.addName(new ItemStack(abstractor, 1, 9), "Tartarite Abstractor");*/
 
         AbstractorRecipes.addEssence(Item.ingotIron.itemID, 0, 3);
         AbstractorRecipes.addEssence(Item.ingotGold.itemID, 0, 9);
@@ -244,12 +231,6 @@ public class MetallurgyMachines
         GameRegistry.registerBlock(chest, ItemBlockPreciousChest.class, "PreciousChest");
         GameRegistry.registerTileEntity(TileEntityPreciousChest.class, "TileEntityPreciousChest");
         
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(chest, 1, 0), "Brass Chest");
-        LanguageRegistry.addName(new ItemStack(chest, 1, 1), "Silver Chest");
-        LanguageRegistry.addName(new ItemStack(chest, 1, 2), "Gold Chest");
-        LanguageRegistry.addName(new ItemStack(chest, 1, 3), "Electrum Chest");
-        LanguageRegistry.addName(new ItemStack(chest, 1, 4), "Platinum Chest");*/
     }
 
     public void initCrusher()
@@ -257,13 +238,6 @@ public class MetallurgyMachines
         crusher = new BlockCrusher(ConfigMachines.crusherID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.crusher").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(crusher, BlockCrusherItem.class, "BlockCrusher");
         GameRegistry.registerTileEntity(TileEntityCrusher.class, "TileEntityCrusher");
-
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(crusher, 1, 0), "Stone Crusher");
-        LanguageRegistry.addName(new ItemStack(crusher, 1, 1), "Copper Crusher");
-        LanguageRegistry.addName(new ItemStack(crusher, 1, 2), "Bronze Crusher");
-        LanguageRegistry.addName(new ItemStack(crusher, 1, 3), "Iron Crusher");
-        LanguageRegistry.addName(new ItemStack(crusher, 1, 4), "Steel Crusher");*/
 
         CrusherRecipes.INSTANCE.addCrushing(Block.cobblestone.blockID, 0, new ItemStack(Block.gravel));
         CrusherRecipes.INSTANCE.addCrushing(Block.stone.blockID, 0, new ItemStack(Block.gravel));
@@ -280,9 +254,6 @@ public class MetallurgyMachines
         GameRegistry.registerBlock(enchanter, "M3Enchanter");
         GameRegistry.registerTileEntity(TileEntityMetallurgyEnchantmentTable.class, "TileEntityM3Enchanter");
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(enchanter), " B ", "IEI", "III", 'B', Item.enchantedBook, 'E', Block.enchantmentTable, 'I', "ingotTartarite"));
-
-        //TODO: LanguageRegistry Clean up
-        //LanguageRegistry.addName(enchanter, "Tartarite Enchanter");
     }
 
     public void initForge()
@@ -290,17 +261,6 @@ public class MetallurgyMachines
         forge = new BlockNetherForge(ConfigMachines.forgeID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.forge").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(forge, BlockNetherForgeItem.class, "BlockNetherForge");
         GameRegistry.registerTileEntity(TileEntityNetherForge.class, "TileEntityNetherForge");
-
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(forge, 1, 0), "Ignatius Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 1), "Shadow Iron Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 2), "Shadow Steel Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 3), "Vyroxeres Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 4), "Inolashite Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 5), "Kalendrite Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 6), "Vulcanite Smelter");
-        LanguageRegistry.addName(new ItemStack(forge, 1, 7), "Sanguinite Smelter");*/
-
     }
 
     public void initFurnace()
@@ -308,26 +268,12 @@ public class MetallurgyMachines
         furnace = new BlockMetalFurnace(ConfigMachines.furnaceID, false).setHardness(3.5F).setUnlocalizedName("metallurgy.furnace").setHardness(2.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(furnace, BlockMetalFurnaceItem.class, "BlockMetalFurnace");
         GameRegistry.registerTileEntity(TileEntityMetalFurnace.class, "TileEntityMetalFurnace");
-        
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(furnace, 1, 0), "Copper Furnace");
-        LanguageRegistry.addName(new ItemStack(furnace, 1, 1), "Bronze Furnace");
-        LanguageRegistry.addName(new ItemStack(furnace, 1, 2), "Iron Furnace");
-        LanguageRegistry.addName(new ItemStack(furnace, 1, 3), "Steel Furnace");*/
-
     }
 
     public void initLadders()
     {
         ladder = new BlockMetalLadder(ConfigMachines.ladderID).setUnlocalizedName("metallurgy.ladder").setHardness(1.0F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(ladder, ItemBlockMetalLadder.class, "M3MetalLadder");
-        
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(ladder, 1, 0), "Copper Ladder");
-        LanguageRegistry.addName(new ItemStack(ladder, 1, 1), "Bronze Ladder");
-        LanguageRegistry.addName(new ItemStack(ladder, 1, 2), "Iron Ladder");
-        LanguageRegistry.addName(new ItemStack(ladder, 1, 3), "Steel Ladder");*/
-
     }
 
     public void initLantern()
@@ -335,44 +281,13 @@ public class MetallurgyMachines
         lantern = new BlockLantern(ConfigMachines.lanternID).setHardness(0.1F).setUnlocalizedName("metallurgy.lantern").setLightValue(1F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(lantern, ItemBlockLantern.class, "M3Lantern");
         GameRegistry.registerTileEntity(TileEntityLantern.class, "TileEntityLantern");
-        
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(lantern, 1, 0), "Red Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 1), "Green Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 2), "Blue Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 3), "Orange Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 4), "Yellow Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 5), "Purple Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 6), "Grey Lantern");
-        LanguageRegistry.addName(new ItemStack(lantern, 1, 7), "White Lantern");*/
 
         coloredGlass = new BlockColoredGlass(ConfigMachines.coloredGlassID).setUnlocalizedName("metallurgy.coloredGlass").setHardness(0.3F).setCreativeTab(machineTab);
         GameRegistry.registerBlock(coloredGlass, ItemBlockColoredGlass.class, "M3ColoredGlass");
-        //TODO: LanguageRegsitry Clean up
-        /*LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 0), "Red Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 1), "Green Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 2), "Blue Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 3), "Orange Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 4), "Yellow Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 5), "Purple Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 6), "Grey Glass");
-        LanguageRegistry.addName(new ItemStack(coloredGlass, 1, 7), "White Glass");*/
 
         glassDust = new ItemGlassDust(ConfigMachines.glassDustID).setUnlocalizedName("metallurgy.glassDust").setCreativeTab(machineTab);
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(glassDust, 1, 0), "Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 1), "Red Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 2), "Green Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 3), "Blue Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 4), "Orange Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 5), "Yellow Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 6), "Purple Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 7), "Grey Glass Dust");
-        LanguageRegistry.addName(new ItemStack(glassDust, 1, 8), "White Glass Dust");*/
         
         sawDust = new ItemMetallurgy(ConfigMachines.sawDustID).setTextureName("Metallurgy:machines/SawDust").setUnlocalizedName("metallurgy.sawDust").setCreativeTab(machineTab);
-        //TODO: LanguageRegistry Clean up
-        //LanguageRegistry.addName(new ItemStack(sawDust), "Saw Dust");
         GameRegistry.addSmelting(sawDust.itemID, new ItemStack(Item.coal, 1,1), 0.15F);
     }
     
@@ -385,10 +300,6 @@ public class MetallurgyMachines
         GameRegistry.registerBlock(mintStorage, "M3MintStorage");
         GameRegistry.registerTileEntity(TileEntityMint.class, "TileEntityMint");
         GameRegistry.registerTileEntity(TileEntityMintStorage.class, "TileEntityMintStorage");
-        
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(mint, "Mint");
-        LanguageRegistry.addName(mintStorage, "Mint Storage");*/
 
         coin = new ItemMetallurgy(ConfigMachines.coinID).setTextureName("Metallurgy:Precious/coin").setUnlocalizedName("metallurgy.coin").setCreativeTab(machineTab);
         stack = new ItemMetallurgy(ConfigMachines.stackID).setTextureName("Metallurgy:Precious/ctack").setUnlocalizedName("metallurgy.coinStack").setCreativeTab(machineTab);
@@ -397,12 +308,6 @@ public class MetallurgyMachines
                 .setCreativeTab(machineTab);
         goldCog = new ItemMetallurgy(ConfigMachines.goldCogID).setTextureName("Metallurgy:Precious/goldCog").setUnlocalizedName("metallurgy.goldCog")
                 .setCreativeTab(machineTab);
-        //TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(coin, "Coin");
-        LanguageRegistry.addName(stack, "Stack");
-        LanguageRegistry.addName(bag, "Bag");
-        LanguageRegistry.addName(bullion, "Bullion");
-        LanguageRegistry.addName(goldCog, "Gold Cog");*/
 
         if (MetallurgyMetals.preciousSet != null)
         {
@@ -527,8 +432,5 @@ public class MetallurgyMachines
         proxy.registerTileEntitySpecialRenderer();
         NetworkRegistry.instance().registerGuiHandler(this, new StorageGuiHandler());
         NetworkRegistry.instance().registerGuiHandler(this, GuiRegistry.instance());
-
-        //TODO: LanguageRegistry Clean up
-        //LanguageRegistry.instance().addStringLocalization("itemGroup.Metallurgy: Machines", "Metallurgy: Machines");
     }
 }

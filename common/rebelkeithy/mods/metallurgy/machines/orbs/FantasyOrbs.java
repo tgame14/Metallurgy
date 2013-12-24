@@ -6,7 +6,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import rebelkeithy.mods.metallurgy.machines.ConfigMachines;
 import rebelkeithy.mods.metallurgy.machines.MetallurgyMachines;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class FantasyOrbs
 {
@@ -15,12 +14,6 @@ public class FantasyOrbs
     public static void init()
     {
         orb = new ItemOrb(ConfigMachines.orbID).setUnlocalizedName("metallurgy.orb").setCreativeTab(MetallurgyMachines.machineTab);
-
-        //TODO: LanguageRegistry Clean up
-        /*for (int i = 0; i < ItemOrb.names.length; i++)
-        {
-            LanguageRegistry.addName(new ItemStack(orb, 1, i), ItemOrb.names[i] + " Orb");
-        }*/
 
         for (int i = 0; i < ItemOrb.names.length; i++)
         {

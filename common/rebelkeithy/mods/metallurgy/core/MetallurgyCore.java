@@ -82,8 +82,6 @@ public class MetallurgyCore
         for (final MetalSet set : getMetalSetList())
         {
             set.load();
-            //TODO: LanguageRegistry Clean up
-            //proxy.registerNamesForMetalSet(set);
         }
     }
 

@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import rebelkeithy.mods.metallurgy.machines.ConfigMachines;
 import rebelkeithy.mods.metallurgy.machines.MetallurgyMachines;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Laser
 {
@@ -18,7 +17,5 @@ public class Laser
         GameRegistry.registerTileEntity(TileEntityLaser.class, "MinersLaserTE");
 
         GameRegistry.addRecipe(new ItemStack(laser, 2), "SGS", "GRG", "SLS", 'S', Block.stone, 'G', Block.thinGlass, 'R', Block.blockRedstone, 'L', Block.torchWood);
-        //TODO: LanguageRegistry Clean up
-        //LanguageRegistry.addName(laser, "Measuring Laser");
     }
 }

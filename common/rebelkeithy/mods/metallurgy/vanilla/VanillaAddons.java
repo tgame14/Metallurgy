@@ -9,7 +9,6 @@ import net.minecraftforge.common.Configuration;
 import rebelkeithy.mods.keithyutils.metablock.MetaBlock;
 import rebelkeithy.mods.keithyutils.metablock.SubBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class VanillaAddons
 {
@@ -58,10 +57,4 @@ public class VanillaAddons
 
     }
 
-    public static void registerNames()
-    {
-    	//TODO: LanguageRegistry Clean up
-        /*LanguageRegistry.addName(new ItemStack(goldBrickID, 1, goldBrickMeta), "Gold Bricks");
-        LanguageRegistry.addName(new ItemStack(ironBrickID, 1, ironBrickMeta), "Iron Bricks");*/
-    }
 }
