@@ -732,7 +732,10 @@ public class OreInfo implements IOreInfo, IWorldGenerator
             else
             {
                 final int check = Integer.parseInt(string);
-                return dim == check;
+                if (dim == check) 
+                {
+                	return true;
+                }
             }
         }
         return false;
