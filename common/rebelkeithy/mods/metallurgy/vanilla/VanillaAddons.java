@@ -9,7 +9,6 @@ import net.minecraftforge.common.Configuration;
 import rebelkeithy.mods.keithyutils.metablock.MetaBlock;
 import rebelkeithy.mods.keithyutils.metablock.SubBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class VanillaAddons
 {
@@ -28,9 +27,9 @@ public class VanillaAddons
     {
         initConfig(configDir);
         goldBrick = new SubBlock(goldBrickID, goldBrickMeta, "Metallurgy:Vanilla/GoldBrick").setHardness(3.0F).setResistance(10.0F)
-                .setUnlocalizedName("Metallurgy:Vanilla/GoldBricks").setCreativeTab(CreativeTabs.tabBlock);
+                .setUnlocalizedName("metallurgy.gold.bricks").setCreativeTab(CreativeTabs.tabBlock);
         ironBrick = new SubBlock(ironBrickID, ironBrickMeta, "Metallurgy:Vanilla/IronBrick").setHardness(5.0F).setResistance(10.0F)
-                .setUnlocalizedName("Metallurgy:Vanilla/IronBricks").setCreativeTab(CreativeTabs.tabBlock);
+                .setUnlocalizedName("metallurgy.iron.bricks").setCreativeTab(CreativeTabs.tabBlock);
         MetaBlock.registerID(goldBrickID);
         MetaBlock.registerID(ironBrickID);
     }
@@ -58,9 +57,4 @@ public class VanillaAddons
 
     }
 
-    public static void registerNames()
-    {
-        LanguageRegistry.addName(new ItemStack(goldBrickID, 1, goldBrickMeta), "Gold Bricks");
-        LanguageRegistry.addName(new ItemStack(ironBrickID, 1, ironBrickMeta), "Iron Bricks");
-    }
 }

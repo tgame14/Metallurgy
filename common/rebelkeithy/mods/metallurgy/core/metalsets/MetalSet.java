@@ -95,13 +95,4 @@ public class MetalSet implements IMetalSet
             ((OreInfo) oreInfo).load();
         }
     }
-
-    public void registerNames()
-    {
-        for (final IOreInfo oreInfo : metals.values())
-        {
-            ((OreInfo) oreInfo).registerNames();
-        }
-    }
-
 }

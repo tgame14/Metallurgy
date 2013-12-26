@@ -125,7 +125,11 @@ public class ItemOrb extends Item
     public String getUnlocalizedName(ItemStack par1ItemStack)
     {
         final int type = getTypeFromDamage(par1ItemStack.getItemDamage());
-        return super.getUnlocalizedName() + "." + names[type];
+        
+        String subUnlocalizedName = names[type].replaceAll("\\s", "");
+        subUnlocalizedName = subUnlocalizedName.substring(0,1).toLowerCase() + subUnlocalizedName.substring(1);
+        
+        return super.getUnlocalizedName() + "." + subUnlocalizedName;
     }
 
     public int getXpFromDamage(int damage)

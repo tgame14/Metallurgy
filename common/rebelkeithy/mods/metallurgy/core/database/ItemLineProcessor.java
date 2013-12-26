@@ -8,7 +8,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import rebelkeithy.mods.metallurgy.core.database.csv.CSVLineProcessor;
 import rebelkeithy.mods.metallurgy.core.metalsets.ItemMetallurgy;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ItemLineProcessor extends CSVLineProcessor<Boolean>
 {
@@ -37,13 +36,16 @@ public class ItemLineProcessor extends CSVLineProcessor<Boolean>
 
         final String itemName = line.get("Item Name");
         final String setName = line.get("Set Name");
-
+        
+        String unlocalizedName = itemName.replaceAll("\\s", "");
+        unlocalizedName = unlocalizedName.substring(0,1).toLowerCase() + unlocalizedName.substring(1);
+        unlocalizedName = "metallurgy." + unlocalizedName;
+        
         id = config.get("Item IDs", itemName, id).getInt();
         final Item item =
                 new ItemMetallurgy(id).setTextureName("Metallurgy:" + setName + "/" + itemName)
-                        .setUnlocalizedName("Metallurgy:" + setName + "/" + itemName)
+                        .setUnlocalizedName(unlocalizedName)
                         .setCreativeTab(tab);
-        LanguageRegistry.addName(item, itemName);
 
         items.put(itemName, item);
         if (!line.get("Ore Dictionary Name").equals("0"))

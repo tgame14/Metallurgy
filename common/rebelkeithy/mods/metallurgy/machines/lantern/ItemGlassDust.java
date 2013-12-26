@@ -59,7 +59,8 @@ public class ItemGlassDust extends Item
     {
         if (itemstack.getItemDamage() < 9)
         {
-            return getUnlocalizedName() + "." + names[itemstack.getItemDamage()];
+        	String name =  names[itemstack.getItemDamage()].toLowerCase();
+            return getUnlocalizedName() + "." + name;
         }
 
         return getUnlocalizedName();
