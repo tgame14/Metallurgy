@@ -10,7 +10,8 @@ public class AppliedEnergestics {
 	public static void init() {
 		if (Loader.isModLoaded("AppliedEnergistics"))
 		{
-			CrusherRecipes.addCrushing(Materials.matQuartz.copy().itemID, Materials.matQuartz.copy().getItemDamage(), new ItemStack(Materials.matQuartzDust.copy().getItem(), 2, Materials.matQuartzDust.copy().getItemDamage()));
+			int amount = 1;
+			CrusherRecipes.addCrushing(Materials.matQuartz.copy().itemID, Materials.matQuartz.copy().getItemDamage(), new ItemStack(Materials.matQuartzDust.copy().getItem(), amount, Materials.matQuartzDust.copy().getItemDamage()));
 		}
 		
 	}
