@@ -111,7 +111,10 @@
 	<!-- Setup mcp and forge -->
 	<target name="setup" depends="download-files,setup-forge">
 		
-		<delete dir="${libs.dir}" failonerror="false"/>
+		<delete failonerror="false">
+			<fileset dir="." includes="**/*.zip"/>
+			<fileset dir="." includes="**/*.jar"/>
+		</delete>
 		<unzip dest="${libs.dir}" src="${download.dir}/master.zip"/>
 		<unzip dest="${libs.dir}" src="${download.dir}/InventoryTweaks-api-MC1.6.2-1.56-b77.jar"/>
 		
@@ -140,7 +143,6 @@
 		<!-- Copy sources -->
 		<copy todir="${mcpsrc.dir}/minecraft">
 			<fileset dir="${libs.dir}">
-				<include name="*"/>
 				<exclude name="KeithyUtils-master"/>
 			</fileset>
 			<fileset dir="${libs.dir}/KeithyUtils-master/common"/>
