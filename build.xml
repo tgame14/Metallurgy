@@ -140,6 +140,7 @@
 		<!-- Copy sources -->
 		<copy todir="${mcpsrc.dir}/minecraft">
 			<fileset dir="${libs.dir}">
+				<include name="*"/>
 				<exclude name="KeithyUtils-master"/>
 			</fileset>
 			<fileset dir="${libs.dir}/KeithyUtils-master/common"/>
