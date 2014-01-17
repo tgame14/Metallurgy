@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -43,8 +44,6 @@ public class TileEntityNetherForge extends TileEntity implements
 	public int furnaceCookTime;
 	public float fuelMultiplier;
 	public int furnaceTimeBase;
-	@Deprecated
-	public int fuel;
 	public int fuelPerItem;
 	public boolean isBurning;
 	public int direction;
@@ -64,12 +63,9 @@ public class TileEntityNetherForge extends TileEntity implements
 		this.furnaceBurnTime = 0;
 	}
 
-	@Deprecated
 	public void addFuelBucket() {
-		fuel += 1000;
-		fuel = fuel < tank.getCapacity() ? fuel : tank.getCapacity();
-		this.fill(ForgeDirection.UNKNOWN, new FluidStack(tank.getFluid()
-				.getFluid(), tank.getFluidAmount()), true);
+
+		this.fill(ForgeDirection.UNKNOWN, new FluidStack(FluidRegistry.LAVA, 1000), true);
 		// sync();
 		if (!worldObj.isRemote) {
 			sendPacket();
@@ -204,7 +200,7 @@ public class TileEntityNetherForge extends TileEntity implements
 	}
 
 	public int getFuelScaled(int scale) {
-		final int retValue = fuel * scale / tank.getCapacity();
+		final int retValue = tank.getFluidAmount() * scale / tank.getCapacity();
 		if (retValue > scale) {
 			return scale;
 		}
@@ -233,7 +229,7 @@ public class TileEntityNetherForge extends TileEntity implements
 
 	public int getScaledFuel(int i) {
 		final int scaledFuel = MathHelper.ceiling_float_int(i
-				* (fuel / (float) tank.getCapacity()));
+				* (tank.getFluidAmount() / (float) tank.getCapacity()));
 		return scaledFuel >= i ? i : scaledFuel;
 	}
 
@@ -279,7 +275,7 @@ public class TileEntityNetherForge extends TileEntity implements
 	 * Returns true if the furnace is currently burning
 	 */
 	public boolean isBurning() {
-		return fuel > 0 && canSmelt();
+		return tank.getFluidAmount() > 0 && canSmelt();
 	}
 
 	@Override
@@ -498,8 +494,10 @@ public class TileEntityNetherForge extends TileEntity implements
 			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 1, direction);
 			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 2,
 					furnaceTimeBase);
-			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 3, this.tank.getFluidAmount());
-			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 4, this.tank.getCapacity());
+			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 3,
+					this.tank.getFluidAmount());
+			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 4,
+					this.tank.getCapacity());
 			worldObj.addBlockEvent(xCoord, yCoord, zCoord, id, 5,
 					furnaceCookTime);
 		}
@@ -573,7 +571,7 @@ public class TileEntityNetherForge extends TileEntity implements
 		tag.setTag("Items", var2);
 		sync();
 	}
-	
+
 	/* Here Starts IFluidHandler */
 
 	@Override
@@ -597,21 +595,25 @@ public class TileEntityNetherForge extends TileEntity implements
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		return tank.getFluid() == null || tank.getFluid().getFluid() == fluid;
+		return tank.getFluid() == null || tank.getFluid().getFluid() == FluidRegistry.LAVA;
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return tank.getFluid() == null || tank.getFluid().getFluid() == fluid;
+		return tank.getFluid() == null || tank.getFluid().getFluid() == FluidRegistry.LAVA;
 	}
 
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		return new FluidTankInfo[] { this.tank.getInfo() };
 	}
-	
+
 	public int getTankCapacity() {
 		return this.tank.getCapacity();
+	}
+
+	public int getTankFluidAmount() {
+		return this.tank.getFluidAmount();
 	}
 
 }
