@@ -22,6 +22,9 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 import rebelkeithy.mods.keithyutils.guiregistry.GuiRegistry;
 import rebelkeithy.mods.metallurgy.machines.ConfigMachines;
 import rebelkeithy.mods.metallurgy.machines.MetallurgyMachines;
@@ -270,21 +273,23 @@ public class BlockNetherForge extends BlockContainer
 
         final ItemStack currentItem = par5EntityPlayer.inventory.getCurrentItem();
 
-        final TileEntityNetherForge var6 = (TileEntityNetherForge) par1World.getBlockTileEntity(par2, par3, par4);
-
-        par5EntityPlayer.addChatMessage("Fuel: " + var6.fuel);
-        par5EntityPlayer.addChatMessage("MaxFuel: " + var6.maxFuel);
+        final TileEntityNetherForge tile = (TileEntityNetherForge) par1World.getBlockTileEntity(par2, par3, par4);
+        FluidTankInfo tankInfo = tile.getTankInfo(ForgeDirection.UNKNOWN)[0];
+        
+        
+        par5EntityPlayer.addChatMessage("Fuel: " + tankInfo.fluid.amount);
+        par5EntityPlayer.addChatMessage("MaxFuel: " + tankInfo.capacity);
 
         if (currentItem != null)
         {
             if (currentItem.itemID == Item.bucketLava.itemID)
             {
-                if (var6.fuel == var6.maxFuel)
+                if (tankInfo.fluid.amount == tankInfo.capacity)
                 {
                     return false;
                 }
 
-                var6.addFuelBucket();
+                tile.fill(ForgeDirection.UNKNOWN, new FluidStack(tankInfo.fluid.amount, 1000), true);
                 if (!par5EntityPlayer.capabilities.isCreativeMode)
                 {
                     if (currentItem.stackSize-- == 1)
@@ -305,12 +310,12 @@ public class BlockNetherForge extends BlockContainer
             }
             else if (currentItem.itemID == Item.bucketEmpty.itemID)
             {
-                if (var6.fuel < 1000)
+                if (tankInfo.fluid.amount < 1000)
                 {
                     return false;
                 }
 
-                var6.removeFuelBucket();
+                tile.drain(ForgeDirection.UNKNOWN, 1000, true);
                 if (!par5EntityPlayer.capabilities.isCreativeMode)
                 {
                     if (currentItem.stackSize-- == 1)
@@ -331,7 +336,7 @@ public class BlockNetherForge extends BlockContainer
             }
         }
 
-        if (var6 != null)
+        if (tile != null)
         {
             GuiRegistry.openGui("NetherForge", MetallurgyMachines.instance, par5EntityPlayer, par1World, par2, par3, par4);
         }
